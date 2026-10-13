@@ -30,13 +30,17 @@ Objectif : prendre uniquement les décisions qui empêchent d'écrire les premi�
 
 - [x] Choisir le nom du dépôt autonome : `hericlibong/afrimyth-api`, distinct de
   `AfricanPantheonAPI` et `AfrMyth_API`.
-- [ ] Trancher la gestion des ethnies : principale seule, principale + secondaires, ou M2M.
-- [ ] Trancher la gestion des pays : principal + secondaires, M2M seul, ou texte libre.
-- [ ] Choisir l'emplacement unique des domaines et réconcilier les quatre divergences connues.
-- [ ] Confirmer que l'API devient la source de vérité après l'import initial du corpus V2.
-- [ ] Confirmer la stratégie `Entity` + profils `OneToOne` explicites.
-- [ ] Valider le workflow et la matrice de permissions déjà proposés.
-- [ ] Enregistrer les décisions retenues dans des ADR courtes.
+- [x] Trancher la gestion des ethnies : ethnie principale facultative + ethnies secondaires.
+- [x] Trancher la gestion des pays : pays principal facultatif + pays secondaires.
+- [x] Trancher les aires régionales, transafricaines et diasporiques, ainsi que les variantes
+  culturelles d'une même figure : `CulturalArea` + `variant_of`.
+- [x] Choisir l'emplacement unique des domaines : `Entity.domains`, avec réconciliation à
+  l'import.
+- [x] Confirmer que l'API et PostgreSQL deviennent la source de vérité après l'import initial
+  du corpus V2.
+- [x] Confirmer la stratégie `Entity` + profils `OneToOne` explicites.
+- [x] Valider le workflow et la matrice de permissions déjà proposés.
+- [x] Enregistrer les décisions retenues dans l'ADR 0002.
 
 **Livrable attendu :** décisions bloquantes consignées, schéma initial suffisamment stable
 pour écrire les modèles sans chercher à figer tout le futur contrat REST.

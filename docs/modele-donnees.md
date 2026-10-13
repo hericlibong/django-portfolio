@@ -2,8 +2,9 @@
 
 Audit de consolidation des trois dépôts existants, en vue de la future API Django REST.
 
-**Statut : document de travail.** Aucune décision n'est actée. La section 6 liste les points
-qui demandent un arbitrage avant toute modélisation.
+**Statut : audit consolidé.** Les décisions structurantes de la phase 0 sont actées dans
+[`ADR 0002`](adr/0002-decisions-structurantes-phase-0.md). En cas d'écart avec une proposition
+historique de ce document, l'ADR fait foi.
 
 ## 0. Périmètre et méthode
 
@@ -448,9 +449,9 @@ librement.
 
 | Modèle | Champs | Contraintes |
 |---|---|---|
-| `CulturalRegion` | `name`, `slug` | `unique` sur les deux. 7 valeurs connues |
-| `Country` | `name`, `slug`, `iso_code` (nullable), `is_composite` (booléen) | `is_composite` couvre les 11 valeurs du type `"Benin / Nigeria"` ; `iso_code` nullable car `"Pan-African"` n'en a pas |
-| `Ethnicity` | `name`, `slug`, `cultural_region` (`FK`, nullable) | `unique` sur `name` et `slug`. 25 valeurs connues |
+| `CulturalArea` | `name`, `slug`, `kind`, `parent` (`FK self`, nullable) | `kind` : `african_region`, `transregional`, `diasporic`. Remplace le référentiel plat initialement proposé |
+| `Country` | `name`, `slug`, `iso_code` (nullable) | Les valeurs composées sont décomposées en pays principal et secondaires ; aucune pseudo-valeur comme `Pan-African` |
+| `Ethnicity` | `name`, `slug`, `primary_cultural_area` (`FK`, nullable) | `unique` sur `name` et `slug`. 25 valeurs connues |
 | `Domain` | `name`, `slug` | Vocabulaire de `attributes.domains` |
 | `VisualStyle` | `style_id`, `label`, `is_canon` | 5 `style_id` fixés par le contrat V2 |
 | `EthnicStyleProfile` | `ethnicity` (`O2O`), `inherits_from` (`FK self`, nullable), `visual_signature`, `visual_philosophy` (`JSON`), `material_science` (`JSON`), `surface_and_finish` (`JSON`), `atmosphere` (`JSON`), `constraints` (`JSON`) | Reprise directe de `styles_matrix.json`. Les sous-blocs restent en `JSONField` : ce sont des fragments de prompt, pas des données interrogeables |
@@ -466,9 +467,13 @@ librement.
 | `name` | `CharField(255)` | |
 | `entity_type` | `CharField`, choix | `divinity`, `hero`, `creature`. La question des figures historiques est reportée dans l'ADR 0001 |
 | `category` | `CharField(255)`, vide autorisé | Sous-titre éditorial, texte libre assumé |
-| `country` | `FK(Country)`, nullable | |
-| `ethnicity` | `FK(Ethnicity)`, nullable | Singulier dans la proposition initiale ; à trancher dans l'arbitrage A |
-| `cultural_region` | `FK(CulturalRegion)`, nullable | Macro-région éditoriale, distincte de l'ethnie, comme le prescrit le contrat V2 |
+| `primary_country` | `FK(Country)`, nullable | Ancrage géographique principal |
+| `secondary_countries` | `M2M(Country)`, vide autorisé | Origines géographiques supplémentaires |
+| `primary_ethnicity` | `FK(Ethnicity)`, nullable | Ancrage culturel principal, notamment pour le style |
+| `secondary_ethnicities` | `M2M(Ethnicity)`, vide autorisé | Appartenances culturelles supplémentaires |
+| `primary_cultural_area` | `FK(CulturalArea)`, nullable | Aire africaine, transrégionale ou diasporique principale |
+| `secondary_cultural_areas` | `M2M(CulturalArea)`, vide autorisé | Aires culturelles supplémentaires |
+| `variant_of` | `FK(self)`, nullable | Figure de référence dont cette entité est une variante culturelle ; le type peut différer |
 | `gender` | `CharField`, choix | `male`, `female`, `neutral`, `androgynous`, `fluid` — les 5 valeurs observées |
 | `cultural_role` | `CharField(255)`, vide autorisé | |
 | `alignment` | `CharField`, vide autorisé | Décision éditoriale reportée dans l'ADR 0001 |
@@ -480,7 +485,7 @@ librement.
 | `created_at`, `updated_at` | `DateTimeField` | Rétablis : V2 les a perdus |
 
 Contraintes : `unique` sur `slug` ; `UniqueConstraint(name, entity_type)`, reprise de V1 ;
-index sur `entity_type`, `ethnicity` et `cultural_region`.
+index sur `entity_type`, `primary_ethnicity`, `primary_country` et `primary_cultural_area`.
 
 **Attributs symboliques** — `attributes.domains`, `symbols`, `power_objects`,
 `symbolic_animals`. V2 les met au tronc commun, les trois versions antérieures les réservaient
@@ -614,11 +619,11 @@ Points de friction identifiés pour les 44 entités :
 |---|---|
 | Absence d'identifiant | Génération de `slug` à partir de `name`, à vérifier pour les noms composés |
 | `relations` par nom | Résolution en deux passes : créer les entités, puis rapprocher les noms. Les non-résolus partent en `to_name` |
-| `country` composés (11 cas) | Nécessitent l'arbitrage B |
+| `country` composés (11 cas) | Décomposition en `primary_country` et `secondary_countries` selon l'ADR 0002 |
 | `alignment` (3 valeurs hors système) | Import temporaire possible ; décision éditoriale reportée dans l'ADR 0001 |
 | `type_specific` structurellement présent mais vide | Ne pas créer de `*Profile` vide : filtrer sur contenu réel |
 | Images | Les fichiers `/generated_images/*.png` sont absents du dépôt. Les URL seront importées sans fichier, ou écartées |
-| Doublon `attributes.domains` / `type_specific.divinity.domains` | Nécessite l'arbitrage C |
+| Doublon `attributes.domains` / `type_specific.divinity.domains` | Union sans perte dans `Entity.domains`, erreurs certaines corrigées et ambiguïtés signalées |
 
 ---
 
@@ -647,10 +652,11 @@ Pour mémoire, afin que ces choix ne soient pas refaits implicitement.
 
 ---
 
-## 6. Arbitrages bloquants avant le premier modèle
+## 6. Arbitrages de modélisation — décisions actées
 
-Seuls quatre choix modifient immédiatement les tables. Les autres questions sont reportées et
-consignées dans [`docs/adr/0001-decisions-metier-reportees.md`](adr/0001-decisions-metier-reportees.md).
+Les choix ci-dessous sont désormais tranchés dans
+[`ADR 0002`](adr/0002-decisions-structurantes-phase-0.md). Les questions non bloquantes restent
+consignées dans [`ADR 0001`](adr/0001-decisions-metier-reportees.md).
 
 ### Décision actée — pas de modèle `Pantheon` dans la V1
 
@@ -671,7 +677,7 @@ l'audit et présent dans le corpus V2 original. L'importeur devra signaler dans 
 produit exige de filtrer ou de regrouper les entités par tradition, la notion sera réexaminée
 à partir d'un vocabulaire éditorial clarifié et fera l'objet d'une nouvelle ADR.
 
-### A. Une entité peut-elle avoir plusieurs ethnies ?
+### A. Ethnies multiples — principale + secondaires
 
 V0 avait `ethnicity` en `ArrayField`. V1 et V2 l'ont ramené au singulier, et le contrat V2
 justifie ce choix : c'est la clé de la matrice de styles, elle doit être « aussi précise et
@@ -685,17 +691,17 @@ Options : (a) garder `FK` unique, et traiter `"Multi-ethnic"` comme une valeur d
 à part entière ; (b) `FK` principale `ethnicity` + `M2M` `secondary_ethnicities`, la `FK`
 restant la clé de style ; (c) `M2M` seul avec un indicateur « ethnie de style ».
 
-Mon avis : (b). Préserve la règle du contrat V2 — une seule clé de style — sans mentir sur la
-réalité culturelle. Mais c'est un arbitrage éditorial, pas technique : il m'échappe.
+**Décision : option (b).** Une ethnie principale facultative sert d'ancrage, complétée par des
+ethnies secondaires facultatives.
 
-### B. Comment traiter les origines composées ?
+### B. Origines composées — pays principal + secondaires
 
 Onze valeurs de `country` sont composées : `"Benin / Nigeria"`, `"DRC / Angola"`,
 `"Nigeria / Diaspora"`, `"Zimbabwe / Zambia"`, `"Kenya / Tanzania"`,
 `"South Africa / Namibia"`, `"Mozambique / Japan"`, `"Benin / Haiti"`, `"Benin / Togo"`,
 plus `"Pan-African"` et `"Congo Basin"` qui ne sont pas des pays.
 
-J'ai proposé un indicateur `is_composite` sur `Country`, ce qui est un contournement : cela
+L'indicateur initialement proposé `is_composite` sur `Country` était un contournement : cela
 stocke `"Benin / Nigeria"` comme une entité de référentiel, et le filtre « entités du Bénin »
 ne la trouvera pas.
 
@@ -703,14 +709,15 @@ Options : (a) `M2M` `countries` sur `Entity`, qui est la modélisation correcte 
 notion de pays principal ; (b) `FK primary_country` + `M2M secondary_countries` ;
 (c) garder le texte libre et accepter de ne pas filtrer par pays.
 
-Par ailleurs `"Pan-African"` et `"Congo Basin"` ne sont pas des pays mais des régions : ils
-appartiennent à `CulturalRegion`, pas à `Country`. Faut-il les y déplacer à l'import, en
-laissant `country` vide ?
+Par ailleurs `"Pan-African"` et `"Congo Basin"` ne sont pas des pays. Ils sont classés dans
+`CulturalArea`, avec un type distinct pour les aires africaines, transrégionales et
+diasporiques.
 
-Mon avis : (b), et oui pour le déplacement. Mais le point (a) mérite peut-être d'être retenu
-si le filtrage géographique est une fonctionnalité produit — dis-moi.
+**Décision : option (b).** `primary_country` porte l'ancrage principal et
+`secondary_countries` les autres pays. Les variantes culturelles sont des entités autonomes
+reliées par `variant_of`.
 
-### C. `domains` existe deux fois en V2 — lequel fait foi ?
+### C. Domaines dupliqués — emplacement unique sur `Entity`
 
 Les données portent `attributes.domains` **et** `type_specific.divinity.domains`. Les 25
 divinités ont les deux clés ; `attributes.domains` est rempli pour les 25,
@@ -743,10 +750,11 @@ le seul rempli ; (b) un seul emplacement sur `DivinityProfile`, ce qui prive les
 leurs animaux symboliques ; (c) conserver les deux avec des sémantiques distinctes, ce qui
 suppose de définir laquelle.
 
-Mon avis : (a), c'est ce que j'ai proposé en 4.3. Je le signale parce que cela contredit la
-lettre du contrat V2.
+**Décision : option (a).** `Entity.domains` est l'emplacement unique pour les trois types.
+L'import part de `attributes.domains`, ajoute les valeurs spécifiques sans perte, corrige les
+erreurs certaines et signale les ambiguïtés.
 
-### D. Le corpus V2 doit-il être importé dans ce projet ?
+### D. Corpus V2 — import initial puis source de vérité PostgreSQL
 
 Question de périmètre, pas de modélisation. Les 44 entités sont la seule donnée réelle
 disponible, mais `african_mythology_V2` est un projet vivant dont le front et le moteur
@@ -756,8 +764,9 @@ Options : (a) importer le corpus une fois, et le projet Django devient la source
 V2 devenant un consommateur de l'API ; (b) importer en lecture seule, comme jeu de
 démonstration, V2 restant autonome ; (c) ne rien importer et repartir d'une base vide.
 
-Cela détermine s'il faut écrire un véritable importateur idempotent ou une simple fixture de
-démonstration. C'est la décision qui a le plus d'effet sur la charge de travail.
+**Décision : option (a).** Un importateur idempotent charge le corpus initial, puis
+`afrimyth-api` et PostgreSQL deviennent l'unique source de vérité. Le JSON reste une archive
+d'origine, sans synchronisation retour.
 
 ---
 
@@ -779,19 +788,15 @@ pas vingt colonnes de créature à `NULL`. Pour éviter une abstraction prématu
 trois profils concrets et une validation simple : le profil présent doit correspondre à
 `entity_type`.
 
-Cette recommandation doit être tranchée avant de figer le modèle et sera ensuite enregistrée
-dans une ADR dédiée.
+Cette recommandation est validée dans l'ADR 0002.
 
 ---
 
-## 8. Ordre de travail resserré
+## 8. Ordre de travail après la phase 0
 
-1. Trancher les quatre arbitrages A à D.
-2. Valider la couche plateforme minimale et la matrice de permissions.
-3. Trancher la stratégie Django des profils.
-4. Construire le premier incrément exécutable : projet Django, utilisateur, `Entity`, un profil,
+1. Construire le premier incrément exécutable : projet Django, utilisateur, `Entity`, un profil,
    migrations et tests essentiels.
-5. À partir de ce modèle qui tourne, préciser les premiers endpoints et poursuivre par petits
+2. À partir de ce modèle qui tourne, préciser les premiers endpoints et poursuivre par petits
    incréments testés.
 
 Pas de contrat REST exhaustif, d'internationalisation, de moteur générique de workflow ni de
