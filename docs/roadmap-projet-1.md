@@ -54,23 +54,35 @@ fonctionne de bout en bout.
 
 **Estimation : 1 à 2 jours.**
 
-- [ ] Créer le dépôt autonome avec le nom validé en phase 0.
-- [ ] Initialiser Django, Django REST Framework et la configuration PostgreSQL.
-- [ ] Configurer pytest et pytest-django avant les premiers tests.
-- [ ] Configurer Ruff et mypy dès l'initialisation, avec des règles utiles mais compatibles
+- [x] Créer le dépôt autonome avec le nom validé en phase 0.
+- [x] Initialiser Django, Django REST Framework et la configuration PostgreSQL.
+- [x] Configurer pytest et pytest-django avant les premiers tests.
+- [x] Configurer Ruff et mypy dès l'initialisation, avec des règles utiles mais compatibles
   avec un démarrage rapide.
-- [ ] Créer `CLAUDE.md` et `AGENTS.md` avec les règles communes du projet et seulement les
+- [x] Créer `CLAUDE.md` et `AGENTS.md` avec les règles communes du projet et seulement les
   différences propres à chaque agent.
-- [ ] Créer les apps minimales `accounts` et `mythology`.
-- [ ] Déclarer le modèle utilisateur personnalisé dès la première migration.
+- [x] Créer les apps minimales `accounts` et `mythology`.
+- [x] Déclarer le modèle utilisateur personnalisé dès la première migration.
 - [ ] Créer `Entity` et `DivinityProfile` avec leur relation `OneToOne`.
 - [ ] Ajouter les migrations et l'administration Django minimale.
-- [ ] Exposer un endpoint de santé.
+- [x] Exposer un endpoint de santé.
 - [ ] Exposer une première lecture liste/détail des entités.
-- [ ] Ajouter les premiers tests de modèles et d'API.
+- [x] Ajouter les premiers tests de modèles et d'API.
 
 **Livrable attendu :** dépôt installable, base PostgreSQL migrable, administration accessible,
 endpoint de santé et première ressource `Entity` consultable avec tests, Ruff et mypy au vert.
+
+### Avancement — incrément 1 validé le 13 octobre 2026
+
+Le socle technique de `afrimyth-api` est opérationnel : Python 3.12, Django 5.2 LTS et Django
+REST Framework, PostgreSQL 16 avec base et rôle applicatifs en place et migrations appliquées,
+modèle utilisateur personnalisé `accounts.User` déclaré dès la première migration, endpoint
+public de santé, premiers tests et outillage qualité (pytest, Ruff, mypy) au vert.
+
+Rapport détaillé : `docs/reports/phase-1-increment-1.md` du dépôt `afrimyth-api`.
+
+La phase 1 reste **en cours** : `Entity`, `DivinityProfile`, leur administration et la lecture
+liste/détail des entités constituent l'incrément suivant.
 
 ---
 
