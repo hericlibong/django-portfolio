@@ -30,6 +30,9 @@ Ce dépôt ne contient aucun code applicatif. Il sert d'index à un parcours d'a
 | 9  | ★ Plateforme data avec visualisation      | Ingestion de sources externes, agrégations ORM, restitution graphique                   | Django, PostgreSQL, Celery, bibliothèque de graphiques | ⬜ Planifié  | à venir |
 | 10 | Finition production                       | Conteneurisation, chaîne CI/CD, supervision et journalisation — appliqué aux projets ci-dessus | Docker, GitHub Actions, gunicorn, nginx, Sentry | ⬜ Planifié  | à venir |
 
+La roadmap détaillée du premier projet est disponible dans
+[`docs/roadmap-projet-1.md`](docs/roadmap-projet-1.md).
+
 ### Standards appliqués
 
 Ces règles valent pour les dix dépôts, sans exception négociée projet par projet.
@@ -79,6 +82,9 @@ This repository holds no application code. It indexes a Django learning path bui
 | 8  | Advanced search                    | Full-text search, typo tolerance, result weighting and ranking                            | Django, PostgreSQL (`tsvector`, `pg_trgm`)       | ⬜ Planned  | TBA  |
 | 9  | ★ Data platform with dashboards    | External source ingestion, ORM aggregations, visual reporting                             | Django, PostgreSQL, Celery, charting library     | ⬜ Planned  | TBA  |
 | 10 | Production hardening               | Containerisation, CI/CD pipeline, monitoring and logging — applied to the projects above  | Docker, GitHub Actions, gunicorn, nginx, Sentry  | ⬜ Planned  | TBA  |
+
+The detailed roadmap for the first project is available in
+[`docs/roadmap-projet-1.md`](docs/roadmap-projet-1.md).
 
 ### Engineering standards
 
