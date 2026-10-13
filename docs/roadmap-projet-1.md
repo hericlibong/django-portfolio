@@ -63,10 +63,10 @@ fonctionne de bout en bout.
   différences propres à chaque agent.
 - [x] Créer les apps minimales `accounts` et `mythology`.
 - [x] Déclarer le modèle utilisateur personnalisé dès la première migration.
-- [ ] Créer `Entity` et `DivinityProfile` avec leur relation `OneToOne`.
-- [ ] Ajouter les migrations et l'administration Django minimale.
+- [x] Créer `Entity` et `DivinityProfile` avec leur relation `OneToOne`.
+- [x] Ajouter les migrations et l'administration Django minimale.
 - [x] Exposer un endpoint de santé.
-- [ ] Exposer une première lecture liste/détail des entités.
+- [x] Exposer une première lecture liste/détail des entités.
 - [x] Ajouter les premiers tests de modèles et d'API.
 
 **Livrable attendu :** dépôt installable, base PostgreSQL migrable, administration accessible,
@@ -81,8 +81,31 @@ public de santé, premiers tests et outillage qualité (pytest, Ruff, mypy) au v
 
 Rapport détaillé : `docs/reports/phase-1-increment-1.md` du dépôt `afrimyth-api`.
 
-La phase 1 reste **en cours** : `Entity`, `DivinityProfile`, leur administration et la lecture
-liste/détail des entités constituent l'incrément suivant.
+### Avancement — incrément 2 validé le 13 octobre 2026
+
+La première tranche métier fonctionne de bout en bout : `Entity` — UUID en clé primaire, slug
+unique, contrainte d'unicité `(name, entity_type)` — et `DivinityProfile` relié en `OneToOne`
+avec suppression en cascade, migration générée par Django et appliquée sur PostgreSQL 16,
+administration Django minimale, et API publique en lecture seule exposant
+`GET /api/entities/` et `GET /api/entities/{slug}/`, le profil étant imbriqué dans le détail et
+chargé en une seule requête.
+
+La vérification manuelle en navigateur est concluante : administration accessible, création
+d'une `Entity` et de son `DivinityProfile`, liste et détail visibles, profil correctement
+imbriqué. 24 tests passent, Ruff et mypy sont au vert.
+
+Rapport détaillé : `docs/reports/phase-1-increment-2.md` du dépôt `afrimyth-api`.
+
+### Phase 1 terminée et validée le 13 octobre 2026
+
+Toutes les tâches de la phase 1 sont remplies et son livrable est atteint. Les prochains
+travaux relèvent de la phase 2 : profils `Hero` et `Creature`, référentiels, relations entre
+entités et pilote d'import.
+
+Deux points restent provisoires par construction et seront traités dans les phases prévues :
+l'API est ouverte en `AllowAny` et strictement en lecture seule — authentification, rôles,
+permissions objet, CRUD et modération arrivent en phase 4 — et aucun statut éditorial n'existe
+encore, donc aucune entité n'est filtrée à la lecture.
 
 ---
 
