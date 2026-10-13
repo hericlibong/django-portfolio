@@ -580,13 +580,15 @@ d'autorisation et fournit le vocabulaire explicite utilisé par l'API et les tes
 | Depuis | Vers | Acteur autorisé | Intention |
 |---|---|---|---|
 | `draft` | `submitted` | propriétaire, relecteur, administrateur | Demander une revue |
+| `submitted` | `draft` | propriétaire, relecteur, administrateur | Retirer une soumission pour la corriger |
 | `submitted` | `published` | relecteur, administrateur | Publier |
 | `submitted` | `rejected` | relecteur, administrateur | Refuser avec commentaire |
 | `rejected` | `draft` | propriétaire, relecteur, administrateur | Corriger puis resoumettre |
 | `published` | `draft` | administrateur uniquement | Retirer temporairement pour correction |
 
-Les transitions passent par une action de service explicite et sont testées ; un client ne peut
-pas modifier librement `status` avec un `PATCH` ordinaire.
+Le retour `submitted` → `draft` est un retrait, pas un rejet. Les transitions passent par une
+action de service explicite et sont testées ; un client ne peut pas modifier librement
+`status` avec un `PATCH` ordinaire.
 
 **Matrice de permissions V1**
 
@@ -595,7 +597,8 @@ pas modifier librement `status` avec un `PATCH` ordinaire.
 | Lire une entité `published` | Oui | Oui | Oui | Oui |
 | Lire son propre `draft` ou `rejected` | Non | Oui | Oui | Oui |
 | Lire le `draft` ou `rejected` d'un autre | Non | Non | Oui | Oui |
-| Lire une entité `submitted` | Non | Propriétaire seulement | Oui | Oui |
+| Lire son propre `submitted` | Non | Oui | Oui | Oui |
+| Lire le `submitted` d'un autre | Non | Non | Oui | Oui |
 | Créer une entité | Non | Oui, propriétaire automatique | Oui | Oui |
 | Modifier un `draft` ou `rejected` | Non | Propriétaire seulement | Oui | Oui |
 | Modifier une entité `submitted` | Non | Non | Oui | Oui |
@@ -604,6 +607,7 @@ pas modifier librement `status` avec un `PATCH` ordinaire.
 | Supprimer une entité `submitted` | Non | Non | Non | Oui |
 | Supprimer une entité `published` | Non | Non | Non | Oui |
 | Soumettre (`draft` → `submitted`) | Non | Propriétaire seulement | Oui | Oui |
+| Retirer (`submitted` → `draft`) | Non | Propriétaire seulement | Oui | Oui |
 | Publier ou rejeter | Non | Non | Oui | Oui |
 | Rouvrir une entité publiée | Non | Non | Non | Oui |
 

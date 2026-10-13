@@ -178,13 +178,16 @@ de champ `role` en doublon sur l'utilisateur.
 | Depuis | Vers | Acteur autorisé |
 |---|---|---|
 | `draft` | `submitted` | propriétaire, relecteur, administrateur |
+| `submitted` | `draft` | propriétaire, relecteur, administrateur |
 | `submitted` | `published` | relecteur, administrateur |
 | `submitted` | `rejected` | relecteur, administrateur |
 | `rejected` | `draft` | propriétaire, relecteur, administrateur |
 | `published` | `draft` | administrateur uniquement |
 
-Le statut n'est jamais modifiable par un `PATCH` ordinaire. Chaque transition passe par une
-action explicite de l'API.
+Le retour `submitted` → `draft` est un retrait de soumission, pas un rejet : il permet notamment
+au propriétaire de reprendre immédiatement une contribution envoyée par erreur. Le statut
+n'est jamais modifiable par un `PATCH` ordinaire. Chaque transition passe par une action
+explicite de l'API.
 
 ### Matrice de permissions
 
@@ -193,7 +196,8 @@ action explicite de l'API.
 | Lire une entité `published` | Oui | Oui | Oui | Oui |
 | Lire son propre `draft` ou `rejected` | Non | Oui | Oui | Oui |
 | Lire le `draft` ou `rejected` d'un autre | Non | Non | Oui | Oui |
-| Lire une entité `submitted` | Non | Propriétaire seulement | Oui | Oui |
+| Lire son propre `submitted` | Non | Oui | Oui | Oui |
+| Lire le `submitted` d'un autre | Non | Non | Oui | Oui |
 | Créer une entité | Non | Oui, propriétaire automatique | Oui | Oui |
 | Modifier un `draft` ou `rejected` | Non | Propriétaire seulement | Oui | Oui |
 | Modifier une entité `submitted` | Non | Non | Oui | Oui |
@@ -202,6 +206,7 @@ action explicite de l'API.
 | Supprimer une entité `submitted` | Non | Non | Non | Oui |
 | Supprimer une entité `published` | Non | Non | Non | Oui |
 | Soumettre une entité | Non | Propriétaire seulement | Oui | Oui |
+| Retirer sa soumission | Non | Propriétaire seulement | Oui | Oui |
 | Publier ou rejeter | Non | Non | Oui | Oui |
 | Rouvrir une entité publiée | Non | Non | Non | Oui |
 
@@ -212,3 +217,19 @@ action explicite de l'API.
 - Les permissions combinent rôle, propriété et statut de l'objet.
 - La matrice fait l'objet de tests paramétrés couvrant les combinaisons utiles.
 - Une proposition de modification séparée pour une entité déjà publiée reste hors V1.
+
+### Note — suppression logique et managers Django
+
+- `Entity.variant_of` utilise `on_delete=PROTECT`.
+- Le service refuse également la suppression logique d'une figure de référence tant qu'elle
+  possède des variantes actives.
+- Une suppression renseigne `deleted_at` et `deleted_by` ; aucun champ `is_deleted` redondant
+  n'est ajouté.
+- `objects = models.Manager()` reste le manager complet et est déclaré en premier sur le
+  modèle. L'administration Django et les opérations de restauration l'utilisent.
+- Un second manager `active` filtre explicitement `deleted_at__isnull=True`. Les vues de l'API
+  utilisent `Entity.active`.
+- Le manager par défaut n'exclut donc jamais silencieusement des lignes dans l'administration,
+  la restauration ou le parcours des relations.
+- La restauration est réservée à l'administrateur. La suppression physique n'est pas exposée
+  par l'API V1.
