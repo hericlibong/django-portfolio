@@ -233,3 +233,38 @@ explicite de l'API.
   la restauration ou le parcours des relations.
 - La restauration est réservée à l'administrateur. La suppression physique n'est pas exposée
   par l'API V1.
+
+## 8. Séparation des faits mythologiques et des données de rendu
+
+- **Statut :** validée
+- **Décision :** `Entity` et ses profils ne portent que des faits mythologiques. Les données
+  destinées à la génération de médias sont regroupées dans un module de rendu distinct, livré
+  après la V1.
+
+### Justification
+
+Dans le corpus V2, `appearance.image_generation_prompt` et le bloc `rendering` cohabitent avec
+les faits mythologiques au sein du même objet. Ce sont pourtant deux natures différentes : le
+récit, les signes physiques ou les symboles d'une figure sont des faits documentés, alors qu'un
+prompt est une instruction adressée à un moteur d'images, dépendante du modèle de génération, de
+son style et de sa version. Les mélanger ferait entrer dans le schéma relationnel une donnée qui
+change au rythme d'un outil externe, et obligerait à migrer les tables métier chaque fois que ce
+moteur évolue.
+
+### Conséquences
+
+- Aucun champ `prompt` isolé n'est ajouté à `Entity` ni à l'un de ses profils, à aucun moment de
+  la V1.
+- `prompt_canon`, le prompt négatif, les variantes de prompt par style, la matrice de styles et
+  les métadonnées d'images, de sons ou de vidéos seront intégrés dans le module de rendu déjà
+  prévu par la roadmap, et non dans la phase 2.
+- Tant que ces données ne sont pas importées, le corpus V2 reste leur source conservée.
+  `afrimyth-api` ne deviendra leur source de vérité qu'après cet import, par symétrie avec la
+  décision 5 sur les données mythologiques.
+- La phase 2 doit néanmoins préparer les **entrées** dont ce futur moteur aura besoin, parce
+  qu'elles sont elles-mêmes des faits mythologiques : l'ethnie — clé de la matrice de styles —
+  ainsi que les signes physiques, les symboles et les objets de pouvoir, déjà portés par
+  `Entity`.
+- Cette décision ne déplace pas la phase de rendu dans la phase 2 : elle fixe seulement la
+  frontière, afin qu'aucun incrément intermédiaire n'introduise par commodité un champ de
+  prompt dans les tables métier.

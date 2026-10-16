@@ -121,7 +121,7 @@ pas pour garantir qu'aucune contrainte ou longueur de champ ne devra être corri
 est donc volontairement placé dans cette phase, avant de construire toute l'API autour du
 modèle.
 
-- [ ] Ajouter `HeroProfile` et `CreatureProfile`.
+- [x] Ajouter `HeroProfile` et `CreatureProfile`.
 - [ ] Ajouter les référentiels validés : régions culturelles, pays, ethnies et domaines.
 - [ ] Ajouter les relations entre entités, y compris les relations dont la cible n'existe pas
   encore dans le corpus.
@@ -134,6 +134,33 @@ modèle.
 - [ ] Écrire le squelette de la commande d'import et charger une entité réelle de chaque type.
 - [ ] Confronter ce pilote aux contraintes, longueurs, valeurs nulles, caractères spéciaux et
   relations vers des cibles absentes ; corriger le modèle avant de le considérer stable.
+
+### Frontière avec les données de rendu
+
+Cette phase complète les faits mythologiques et **n'introduit aucune donnée de génération de
+médias**. Aucun champ `prompt` n'est ajouté à `Entity` ni à ses profils. `prompt_canon`, les
+variantes de prompt, la matrice de styles et les métadonnées d'images rejoindront le module de
+rendu déjà prévu — première phase de la future roadmap d'intégration V2, hors V1 — et non la
+phase 2.
+
+Tant que ces données ne sont pas importées, le corpus V2 reste leur source conservée ; l'API ne
+deviendra leur source de vérité qu'après cet import.
+
+La phase 2 prépare en revanche les entrées dont ce futur moteur aura besoin, parce qu'elles sont
+elles-mêmes des faits mythologiques : l'ethnie, qui sert de clé à la matrice de styles, ainsi que
+les signes physiques, les symboles et les objets de pouvoir.
+
+Décision consignée dans [`ADR 0002`](adr/0002-decisions-structurantes-phase-0.md), section 8.
+
+### Avancement — incrément 1 de la phase 2, le 15 octobre 2026
+
+`HeroProfile` et `CreatureProfile` sont livrés, reliés à `Entity` par un `OneToOneField` en
+cascade, avec validation du type dans `clean()`, administration, serializers de lecture et
+imbrication dans le détail d'une entité. Le détail expose désormais les trois clés de profil,
+chargées en une seule requête, celle du type portant l'objet et les deux autres valant `null`.
+39 tests passent, Ruff et mypy sont au vert.
+
+Rapport détaillé : `docs/reports/phase-2-increment-1.md` du dépôt `afrimyth-api`.
 
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
@@ -148,6 +175,10 @@ contributions.
 
 **Estimation : 2 à 3 jours.**
 
+- [ ] Normaliser en anglais, avant la stabilisation de l'API publique, tous les libellés, aides
+  et messages exposés aux clients : `verbose_name`, libellés des classes de choix, `help_text`
+  et messages d'erreur de validation. Langue canonique fixée par
+  [`ADR 0003`](adr/0003-langue-publique-api.md).
 - [ ] Stabiliser les serializers de liste et de détail.
 - [ ] Exposer les routes liste et détail avec des UUID et des slugs stables.
 - [ ] Ajouter pagination, recherche et filtres réellement utiles.
