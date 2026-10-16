@@ -23,5 +23,25 @@ test, sans changement de ces décisions, peut être prise en charge par Codex.
 Les échanges, les prompts et la documentation interne restent en français ;
 le produit et sa documentation publique suivent l'ADR 0003.
 
-Aucun commit ni push sans demande explicite. Préserver les modifications
-existantes et respecter les instructions propres à chaque dépôt.
+## Clôture Git automatique après validation
+
+L'auteur autorise durablement les commits et les pushes normaux des incréments
+validés vers les deux dépôts existants `hericlibong/afrimyth-api` et
+`hericlibong/django-portfolio`. Ils font partie de la clôture : ne pas demander
+une confirmation supplémentaire ni créer un aller-retour de prompt dédié.
+Codex peut exécuter ces opérations secondaires directement.
+
+Conserver l'identité `héric Libong <hericlibong@gmail.com>` comme auteur et
+committer, sans trailer d'attribution d'assistant. Indexer explicitement les
+fichiers du périmètre, effectuer un contrôle Git proportionné puis un push
+normal. Réutiliser les résultats de tests déjà acquis si le code n'a pas
+changé. Éviter les rapports répétitifs pour chaque commande Git ; indiquer
+simplement le résultat et les SHA dans la clôture.
+
+Cette autorisation ne couvre pas une publication d'implémentation en attente
+de revue, un push forcé, une réécriture d'historique, un changement de
+visibilité ou la suppression d'un dépôt. Signaler uniquement les vrais
+obstacles, par exemple un conflit distant ou un problème d'authentification.
+Préserver les modifications existantes et respecter les instructions propres
+à chaque dépôt ; cette autorisation utilisateur remplace les anciennes
+demandes systématiques de confirmation pour les commits et pushes validés.
