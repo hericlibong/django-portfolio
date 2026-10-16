@@ -87,6 +87,30 @@ fiche ferait disparaître ces particularités.
 - Une destination diasporique précise est préférée au terme générique `Diaspora` lorsqu'elle
   est connue ; les pays restent enregistrés séparément dans les champs géographiques validés.
 
+### Précision de clôture — régions de la carte et sous-régions
+
+Pour le périmètre actuel du produit, les quatre grandes régions continentales
+sont `West Africa`, `Central Africa`, `East Africa` et `Southern Africa`.
+Le Nord est hors du périmètre actuel ; cela ne constitue pas une interdiction
+du modèle pour une extension ultérieure.
+
+- Ces quatre régions sont des lignes `CulturalArea` de type `african_region`,
+  sans parent dans cette hiérarchie.
+- Une sous-région conserve ce même type et référence sa région par `parent` :
+  par exemple `Congo Basin` → `Central Africa`.
+- `Diaspora` est une entrée distincte de type `diasporic`, sans parent ; des
+  destinations plus précises comme `Caribbean diaspora` peuvent lui être
+  rattachées. Sa présence dans la navigation ne la transforme pas en région
+  continentale.
+- `Pan-African` est de type `transregional`, sans parent ; aucune affectation
+  arbitraire à une seule des quatre régions n'est imposée.
+
+`kind` décrit la nature d'une aire, pas son niveau dans la hiérarchie. Les
+noms ci-dessus sont des données de référence, pas de nouvelles valeurs de
+`TextChoices`. Leur création appartient au prochain import pilote ; le
+regroupement destiné à la carte appartient à l'intégration V2. Cet incrément
+fournit les champs mais n'implémente encore aucun de ces deux traitements.
+
 ## 4. Emplacement unique des domaines
 
 - **Statut :** validée

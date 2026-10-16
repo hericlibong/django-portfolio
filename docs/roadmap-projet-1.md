@@ -122,7 +122,7 @@ est donc volontairement placé dans cette phase, avant de construire toute l'API
 modèle.
 
 - [x] Ajouter `HeroProfile` et `CreatureProfile`.
-- [ ] Ajouter les référentiels validés : régions culturelles, pays, ethnies et domaines.
+- [x] Ajouter les référentiels validés : régions culturelles, pays, ethnies et domaines.
 - [ ] Ajouter les relations entre entités, y compris les relations dont la cible n'existe pas
   encore dans le corpus.
 - [ ] Ajouter les sources documentaires.
@@ -132,6 +132,9 @@ modèle.
 - [ ] Vérifier les requêtes avec `select_related` et `prefetch_related` sans optimisation
   prématurée supplémentaire.
 - [ ] Écrire le squelette de la commande d'import et charger une entité réelle de chaque type.
+  Préparer les quatre régions continentales du périmètre, les sous-régions et la diaspora
+  selon la précision de la section 3 de l'ADR 0002 ; ne pas confondre `kind` et niveau
+  hiérarchique.
 - [ ] Confronter ce pilote aux contraintes, longueurs, valeurs nulles, caractères spéciaux et
   relations vers des cibles absentes ; corriger le modèle avant de le considérer stable.
 
@@ -161,6 +164,23 @@ chargées en une seule requête, celle du type portant l'objet et les deux autre
 39 tests passent, Ruff et mypy sont au vert.
 
 Rapport détaillé : `docs/reports/phase-2-increment-1.md` du dépôt `afrimyth-api`.
+
+### Avancement — incrément 2 de la phase 2 validé en revue
+
+Les quatre référentiels `CulturalArea`, `Country`, `Ethnicity` et `Domain` sont implémentés,
+administrables et associés à `Entity`. Le détail API expose les trois ancrages facultatifs
+et les quatre collections ; la liste reste compacte. La migration 0003 a été appliquée.
+Les corrections légères de revue ont été intégrées : normalisation et validation des codes
+pays, test de sérialisation sans requête après préchargement et clarification du budget
+de cinq requêtes sur le détail. Les 73 tests, Ruff et mypy passent ; les contrôles Django
+ne détectent ni problème ni migration supplémentaire.
+
+La distinction entre grandes régions, sous-régions et diaspora est consignée dans l'ADR 0002,
+section 3. Les données de référence seront créées à l'import pilote ; le regroupement pour
+la carte sera réalisé lors de l'intégration V2. Le corpus n'est pas encore importé.
+
+Rapport : `docs/reports/phase-2-increment-2-referentiels.md` du dépôt `afrimyth-api`.
+Clôture documentaire préparée ; commits en attente d'exécution par Claude CLI.
 
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
