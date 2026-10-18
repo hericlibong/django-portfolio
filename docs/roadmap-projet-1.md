@@ -123,7 +123,7 @@ modèle.
 
 - [x] Ajouter `HeroProfile` et `CreatureProfile`.
 - [x] Ajouter les référentiels validés : régions culturelles, pays, ethnies et domaines.
-- [ ] Ajouter les relations entre entités, y compris les relations dont la cible n'existe pas
+- [x] Ajouter les relations entre entités, y compris les relations dont la cible n'existe pas
   encore dans le corpus.
 - [ ] Ajouter les sources documentaires.
 - [ ] Ajouter à `Entity` la propriété, le statut et les champs de revue.
@@ -181,6 +181,24 @@ la carte sera réalisé lors de l'intégration V2. Le corpus n'est pas encore im
 
 Rapport : `docs/reports/phase-2-increment-2-referentiels.md` du dépôt `afrimyth-api`.
 Clôture documentaire préparée ; commits en attente d'exécution par Claude CLI.
+
+### Avancement — incrément 3 validé le 18 octobre 2026
+
+`Entity.variant_of` relie les variantes culturelles autonomes à leur référence, avec
+protection contre la suppression physique et l'auto-référence. `EntityRelation` porte les
+liens de parenté, de conjoint, d'alliance et d'opposition, vers une fiche existante ou un
+nom cité. Plusieurs conjoints distincts sont autorisés ; les doublons exacts sont refusés.
+Le détail API expose la référence synthétique et les relations sortantes, sans récursion.
+La migration 0004 est appliquée ; Claude a validé 110 cas de test, Ruff et mypy.
+Le détail coûte six requêtes et la sérialisation préchargée n'en déclenche aucune.
+
+La revue pédagogique est terminée. Les limites connues restent documentées : absence de
+résolution automatique par nom et de relations inverses automatiques, cycles indirects
+non détectés, suppression logique à venir. Les tâches générales de contraintes et de
+vérification des requêtes restent ouvertes pour les prochains modèles.
+
+Rapport : `docs/reports/phase-2-increment-3-relations.md` du dépôt `afrimyth-api`.
+Prochaine tâche : ajout des sources documentaires.
 
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
