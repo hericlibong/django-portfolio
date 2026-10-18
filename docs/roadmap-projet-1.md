@@ -125,7 +125,7 @@ modèle.
 - [x] Ajouter les référentiels validés : régions culturelles, pays, ethnies et domaines.
 - [x] Ajouter les relations entre entités, y compris les relations dont la cible n'existe pas
   encore dans le corpus.
-- [ ] Ajouter les sources documentaires.
+- [x] Ajouter les sources documentaires.
 - [ ] Ajouter à `Entity` la propriété, le statut et les champs de revue.
 - [ ] Imposer la cohérence entre `entity_type` et le profil associé.
 - [ ] Ajouter les contraintes, index et tests de validation utiles.
@@ -199,6 +199,22 @@ vérification des requêtes restent ouvertes pour les prochains modèles.
 
 Rapport : `docs/reports/phase-2-increment-3-relations.md` du dépôt `afrimyth-api`.
 Prochaine tâche : ajout des sources documentaires.
+
+### Avancement — incrément 4 validé le 18 octobre 2026
+
+`Source` rattache plusieurs références documentaires à une fiche, avec les six catégories
+validées, une URL et une date de consultation facultatives. Administration, migration 0005
+et exposition en lecture dans le détail API sont livrées. La liste reste compacte.
+Claude a validé 140 cas de test et les contrôles Django, Ruff et mypy ; le détail coûte
+sept requêtes, avec zéro requête pendant la sérialisation préchargée.
+
+La revue pédagogique et l'exercice ORM sont validés : création, validation, consultation
+et suppression d'une référence fictive. L'auteur a confirmé la suppression de la source
+de démonstration et la liste vide des sources de Shango. La fiabilité documentaire reste
+une appréciation éditoriale, distincte des validations de saisie.
+
+Rapport : `docs/reports/phase-2-increment-4-sources.md` du dépôt `afrimyth-api`.
+Prochaine tâche : propriété, statut éditorial et champs de revue de `Entity`.
 
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
