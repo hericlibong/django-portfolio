@@ -126,7 +126,7 @@ modèle.
 - [x] Ajouter les relations entre entités, y compris les relations dont la cible n'existe pas
   encore dans le corpus.
 - [x] Ajouter les sources documentaires.
-- [ ] Ajouter à `Entity` la propriété, le statut et les champs de revue.
+- [x] Ajouter à `Entity` la propriété, le statut et les champs de revue.
 - [ ] Imposer la cohérence entre `entity_type` et le profil associé.
 - [ ] Ajouter les contraintes, index et tests de validation utiles.
 - [ ] Vérifier les requêtes avec `select_related` et `prefetch_related` sans optimisation
@@ -216,6 +216,22 @@ une appréciation éditoriale, distincte des validations de saisie.
 Rapport : `docs/reports/phase-2-increment-4-sources.md` du dépôt `afrimyth-api`.
 Prochaine tâche : propriété, statut éditorial et champs de revue de `Entity`.
 
+### Avancement — incrément 5 validé le 20 octobre 2026
+
+`Entity` porte désormais le propriétaire, les quatre statuts éditoriaux, les dates et acteurs
+de revue ainsi que les champs de suppression logique. Le manager `objects` reste complet ;
+`active` filtre uniquement `deleted_at`. La vue utilise `active`, tandis que l'administration
+conserve l'accès à toutes les fiches. Aucun champ interne n'est ajouté aux réponses publiques.
+
+La migration 0006 est appliquée. Claude a validé 171 cas de test, les contrôles Django, Ruff
+et mypy. Le budget du détail reste de sept requêtes. La revue technique et pédagogique est
+validée ; aucun changement fonctionnel n'a suivi ces contrôles. Les transitions, permissions,
+attributions automatiques et opérations de suppression/restauration restent en phase 4.
+La visibilité des cibles imbriquées doit être traitée en phase 3, comme indiqué ci-dessous.
+
+Rapport : `docs/reports/phase-2-increment-5-editorial-fields.md` du dépôt `afrimyth-api`.
+Prochaine tâche : cohérence entre le type de l'entité et son profil métier.
+
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
 entités réelles représentatives du corpus.
@@ -237,6 +253,9 @@ contributions.
 - [ ] Exposer les routes liste et détail avec des UUID et des slugs stables.
 - [ ] Ajouter pagination, recherche et filtres réellement utiles.
 - [ ] Ne rendre publiquement visibles que les entités `published`.
+- [ ] Appliquer également les règles de visibilité aux cibles imbriquées (`variant_of`
+  et cibles des relations) : une fiche supprimée ou non publiée ne doit pas être divulguée
+  par le détail d'une autre fiche. Le manager `active` ne filtre que les objets racines.
 - [ ] Centraliser la sélection des objets visibles dans une méthode réutilisable afin que la
   phase 4 ajoute les vues privées sans réécrire les serializers de lecture.
 - [ ] Produire le schéma OpenAPI avec drf-spectacular.
