@@ -23,6 +23,12 @@ test, sans changement de ces décisions, peut être prise en charge par Codex.
 Les échanges, les prompts et la documentation interne restent en français ;
 le produit et sa documentation publique suivent l'ADR 0003.
 
+## Exercices pédagogiques dans le terminal
+
+Proposer des commandes courtes à exécuter une par une. Éviter les boucles et
+les blocs indentés, y compris `with`, même dans IPython. Prévoir une commande
+de nettoyage ciblée lorsqu'un exercice crée des données de démonstration.
+
 ## Clôture Git automatique après validation
 
 L'auteur autorise durablement les commits et les pushes normaux des incréments

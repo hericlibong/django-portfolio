@@ -127,7 +127,9 @@ modèle.
   encore dans le corpus.
 - [x] Ajouter les sources documentaires.
 - [x] Ajouter à `Entity` la propriété, le statut et les champs de revue.
-- [ ] Imposer la cohérence entre `entity_type` et le profil associé.
+- [x] Imposer la cohérence entre `entity_type` et le profil associé via le service de création.
+  La garantie couvre les appels au service ; les autres chemins d'écriture et changements
+  de type devront être encadrés en phase 4.
 - [ ] Ajouter les contraintes, index et tests de validation utiles.
 - [ ] Vérifier les requêtes avec `select_related` et `prefetch_related` sans optimisation
   prématurée supplémentaire.
@@ -231,6 +233,23 @@ La visibilité des cibles imbriquées doit être traitée en phase 3, comme indi
 
 Rapport : `docs/reports/phase-2-increment-5-editorial-fields.md` du dépôt `afrimyth-api`.
 Prochaine tâche : cohérence entre le type de l'entité et son profil métier.
+
+### Avancement — incrément 6 validé le 20 octobre 2026
+
+`create_entity_with_profile` crée l'entité et le seul profil correspondant dans une même
+transaction, avec validation des données et annulation des créations en cas d'échec.
+Aucun nouveau modèle ni migration. Claude a validé 205 cas de test et les contrôles qualité.
+La revue technique et pédagogique est terminée, avec exercice ORM et constat du refus d'un
+doublon. Aucun comportement n'a changé après ces contrôles.
+
+Cette garantie ne couvre ni l'ORM direct ni les changements de type ultérieurs. L'ancienne
+fiche de démonstration Shango, sans profil lors de l'inventaire, n'a pas été réparée par cet
+incrément. Le service sera utilisé par l'import pilote, puis le CRUD en phase 4.
+
+Rapport : `docs/reports/phase-2-increment-6-entity-profile-consistency.md` du dépôt `afrimyth-api`.
+Prochaine étape : préparer l'import pilote de trois entités réelles et confronter leurs
+données aux contraintes et validations du modèle ; les vérifications transverses restantes
+de phase 2 seront consolidées à cette occasion.
 
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
