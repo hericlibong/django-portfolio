@@ -130,14 +130,14 @@ modèle.
 - [x] Imposer la cohérence entre `entity_type` et le profil associé via le service de création.
   La garantie couvre les appels au service ; les autres chemins d'écriture et changements
   de type devront être encadrés en phase 4.
-- [ ] Ajouter les contraintes, index et tests de validation utiles.
-- [ ] Vérifier les requêtes avec `select_related` et `prefetch_related` sans optimisation
+- [x] Ajouter les contraintes, index et tests de validation utiles.
+- [x] Vérifier les requêtes avec `select_related` et `prefetch_related` sans optimisation
   prématurée supplémentaire.
-- [ ] Écrire le squelette de la commande d'import et charger une entité réelle de chaque type.
+- [x] Écrire le squelette de la commande d'import et charger une entité réelle de chaque type.
   Préparer les quatre régions continentales du périmètre, les sous-régions et la diaspora
   selon la précision de la section 3 de l'ADR 0002 ; ne pas confondre `kind` et niveau
   hiérarchique.
-- [ ] Confronter ce pilote aux contraintes, longueurs, valeurs nulles, caractères spéciaux et
+- [x] Confronter ce pilote aux contraintes, longueurs, valeurs nulles, caractères spéciaux et
   relations vers des cibles absentes ; corriger le modèle avant de le considérer stable.
 
 ### Frontière avec les données de rendu
@@ -250,6 +250,30 @@ Rapport : `docs/reports/phase-2-increment-6-entity-profile-consistency.md` du d�
 Prochaine étape : préparer l'import pilote de trois entités réelles et confronter leurs
 données aux contraintes et validations du modèle ; les vérifications transverses restantes
 de phase 2 seront consolidées à cette occasion.
+
+### Clôture de la phase 2 — incrément 7 validé le 21 octobre 2026
+
+Le pilote a importé Oya (divinité), Anansi (héros) et Mokele-mbembe (créature), avec leurs
+profils, référentiels et relations. La simulation est annulée et la relance ne duplique
+ni n'écrase les fiches. Shango, fiche historique hors pilote, a été préservée.
+Les corrections de revue couvrent les cibles du pilote déjà présentes lors d'un import
+partiel et le signalement d'un parent inattendu sur une région racine.
+
+Les contraintes existantes conviennent aux trois fiches : aucun nouvel index, changement
+de modèle ou migration n'est justifié par leurs données. Les cas synthétiques couvrent
+notamment Unicode, valeurs nulles, dépassements de longueur et résolution en deux passes.
+Codex a validé 257 cas de test, Ruff, le formatage, mypy et les contrôles Django. Le détail
+reste à sept requêtes ; sa sérialisation préchargée n'en déclenche aucune.
+
+L'auteur a vérifié les trois réponses API en HTTP 200 : domaines réconciliés et culte d'Oya,
+profil de héros d'Anansi, profil de créature de Mokele-mbembe, pays nul et aire Congo Basin.
+La phase 2 est terminée dans son périmètre. Les limites restent explicites : Shango sans
+profil n'est pas réparée ; les liens d'Oya sont non résolus ; la visibilité publique et les
+autres chemins d'écriture restent à encadrer en phases 3 et 4. L'import complet reste en
+phase 5. La normalisation des libellés publics anglais est bien prévue dans la V1, en phase 3.
+
+Rapport : `docs/reports/phase-2-increment-7-pilot-import.md` du dépôt `afrimyth-api`.
+Prochaine phase : API publique de consultation.
 
 **Livrable attendu :** modèle relationnel complet de la V1, migrations propres et suite de
 tests démontrant les principales contraintes métier, validé par le passage en base de trois
