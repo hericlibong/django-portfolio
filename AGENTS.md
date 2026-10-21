@@ -22,6 +22,9 @@ test, sans changement de ces décisions, peut être prise en charge par Codex.
 
 Les échanges, les prompts et la documentation interne restent en français ;
 le produit et sa documentation publique suivent l'ADR 0003.
+Les docstrings du code sont en anglais, y compris les docstrings internes.
+Appliquer cette règle au nouveau code ; la traduction des docstrings françaises
+existantes est reportée à une passe documentaire dédiée, sans changement fonctionnel.
 
 ## Exercices pédagogiques dans le terminal
 

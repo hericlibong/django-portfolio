@@ -34,11 +34,13 @@ canonique du produit public et du corpus.
 - les prompts destinés aux assistants de code ;
 - la roadmap et les documents de pilotage ;
 - les ADR et les rapports internes ;
-- les commentaires et les docstrings internes.
+- les commentaires internes (hors docstrings).
 
 ### Doivent être en anglais
 
 - les identifiants du code ;
+- toutes les docstrings du code, y compris celles des modules, classes,
+  fonctions et tests internes ;
 - les noms des champs exposés par l'API ;
 - les valeurs techniques de l'API ;
 - les descriptions publiques des champs et des fonctionnalités ;
@@ -107,6 +109,21 @@ phase 2**. Elle est inscrite comme tâche non cochée de la roadmap, à traiter
 avant la stabilisation de l'API publique.
 
 ## Portée de cette décision
+
+### Précision de l'auteur — 21 octobre 2026 : docstrings
+
+Les docstrings doivent être en anglais dans tous les fichiers de code.
+La rédaction antérieure de cette ADR les plaçait explicitement en français ;
+elle est corrigée ici pour refléter la consigne clarifiée de l'auteur.
+Les échanges, prompts, ADR, rapports et explications pédagogiques restent en français.
+
+Appliquer la règle aux nouvelles docstrings dès maintenant. Traduire les
+docstrings françaises existantes lors d'une passe documentaire dédiée avant
+la livraison V1, sans retarder l'incrément de navigation ni changer le code
+exécutable. Les consignes linguistiques du `CLAUDE.md` du dépôt API sont
+alignées lors de la clôture de l'incrément de navigation, pour que le nouveau
+code respecte la règle sans attendre cette traduction. Les anciens prompts
+restent des traces historiques.
 
 Cette ADR ne remet en cause aucune décision de l'ADR 0002. Elle ne modifie pas
 le modèle de données, ne renomme aucun champ existant — les identifiants sont

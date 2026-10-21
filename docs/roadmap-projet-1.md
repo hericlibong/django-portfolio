@@ -308,7 +308,7 @@ lecture publique utilisent des fiches explicitement publiées dans leur base dé
 - [x] Stabiliser les serializers de liste et de détail.
 - [x] Exposer les routes liste et détail avec des UUID et des slugs stables.
   L'UUID est retourné dans `id` ; la route de détail utilise le slug, sans seconde route UUID.
-- [ ] Ajouter pagination, recherche et filtres réellement utiles.
+- [x] Ajouter pagination, recherche et filtres réellement utiles.
   Besoins relevés après le pilote : type d'entité, pays principaux/secondaires et aire
   culturelle (avec portée des sous-régions explicitée). Voir les exemples et questions
   éditoriales dans [la note de revue du pilote](notes/revue-editoriale-corpus-pilote.md).
@@ -338,6 +338,30 @@ Les brouillons du pilote n'ont pas été publiés pour cette démonstration.
 Rapport : `docs/reports/phase-3-increment-1-public-read-contract.md` dans `afrimyth-api`.
 Prochain incrément : pagination, recherche et filtres combinables sur la collection publique.
 La tâche transverse des tests reste ouverte jusqu'à la consolidation de la phase.
+
+### Avancement — incrément 2 validé après revue et exercices pratiques
+
+La collection publique est paginée par 20 fiches compactes, recherchable et
+filtrable par type, pays principal/secondaire et aire culturelle avec ses
+descendants. Les paramètres se combinent sans doublons. Les filtres de liste
+n'affectent pas le détail. Aucun modèle ni migration n'a été ajouté.
+
+Claude a validé 346 cas de test et les contrôles qualité. Codex a renforcé
+les tests anti-doublons et de combinaison, puis validé les 60 cas de navigation,
+Ruff, le formatage et mypy sur le fichier modifié ; le code applicatif n'a
+pas changé pendant cette revue.
+
+L'auteur a validé les explications du code : pagination, recherche, garde du
+détail, filtres `Q`/`distinct()` et sélection des sous-régions. Les réponses
+vides et erreurs attendues ont été vérifiées, puis deux fiches fictives
+publiées ont permis de vérifier recherche et filtre par type. L'auteur
+confirme l'exercice et son nettoyage ; les brouillons du corpus sont préservés.
+La pagination multi-pages, les filtres pays et la hiérarchie restent couverts
+par les tests automatiques, sans démonstration manuelle supplémentaire.
+
+Rapport : `docs/reports/phase-3-increment-2-navigation.md` dans `afrimyth-api`.
+Prochain incrément : OpenAPI, Swagger/ReDoc, exemples et validation finale.
+La phase 3 n'est pas encore terminée.
 
 **Livrable attendu :** API de consultation documentée dans Swagger/ReDoc, utilisable sans
 authentification pour les entités publiées et couverte par des tests d'intégration.
@@ -405,6 +429,9 @@ Objectif : rendre le projet reproductible, lisible et présentable publiquement.
 - [ ] Ajouter une CI GitHub Actions : lint, typage, tests et contrôle des migrations.
 - [ ] Vérifier qu'aucun secret ni fichier de développement ne se trouve dans le dépôt.
 - [ ] Rédiger le README : objectif, architecture, installation, commandes, API et décisions.
+- [ ] Traduire en anglais les docstrings françaises existantes dans tous les fichiers
+  de code, tests compris, sans changement fonctionnel ; aligner les consignes du
+  dépôt API sur l'ADR 0003. Les nouvelles docstrings sont en anglais dès maintenant.
 - [ ] Documenter quelques scénarios reproductibles pour chaque rôle.
 - [ ] Exécuter une revue finale ciblée sur sécurité, permissions et requêtes.
 - [ ] Créer la version `v1.0.0` lorsque la CI est verte.
