@@ -288,30 +288,65 @@ contributions.
 
 **Estimation : 2 à 3 jours.**
 
-- [ ] Normaliser en anglais, avant la stabilisation de l'API publique, tous les libellés, aides
+### Découpage d'implémentation validé
+
+1. **Visibilité et contrat de lecture** : fiches publiées non supprimées,
+   protection des références imbriquées, stabilité des réponses et libellés publics anglais.
+2. **Navigation** : pagination, recherche et filtres par type, pays et aire culturelle,
+   avec portée explicite des rattachements secondaires et sous-régions.
+3. **Documentation et validation finale** : OpenAPI, Swagger/ReDoc, exemples et erreurs,
+   puis consolidation des tests d'intégration du contrat obtenu.
+
+L'API reste en lecture seule. Les brouillons du pilote attendent leur revue éditoriale ;
+ils ne sont pas publiés automatiquement pour maintenir une démonstration. Les tests de
+lecture publique utilisent des fiches explicitement publiées dans leur base dédiée.
+
+- [x] Normaliser en anglais, avant la stabilisation de l'API publique, tous les libellés, aides
   et messages exposés aux clients : `verbose_name`, libellés des classes de choix, `help_text`
   et messages d'erreur de validation. Langue canonique fixée par
   [`ADR 0003`](adr/0003-langue-publique-api.md).
-- [ ] Stabiliser les serializers de liste et de détail.
-- [ ] Exposer les routes liste et détail avec des UUID et des slugs stables.
+- [x] Stabiliser les serializers de liste et de détail.
+- [x] Exposer les routes liste et détail avec des UUID et des slugs stables.
+  L'UUID est retourné dans `id` ; la route de détail utilise le slug, sans seconde route UUID.
 - [ ] Ajouter pagination, recherche et filtres réellement utiles.
-- [ ] Ne rendre publiquement visibles que les entités `published`.
-- [ ] Appliquer également les règles de visibilité aux cibles imbriquées (`variant_of`
+  Besoins relevés après le pilote : type d'entité, pays principaux/secondaires et aire
+  culturelle (avec portée des sous-régions explicitée). Voir les exemples et questions
+  éditoriales dans [la note de revue du pilote](notes/revue-editoriale-corpus-pilote.md).
+- [x] Ne rendre publiquement visibles que les entités `published`.
+- [x] Appliquer également les règles de visibilité aux cibles imbriquées (`variant_of`
   et cibles des relations) : une fiche supprimée ou non publiée ne doit pas être divulguée
   par le détail d'une autre fiche. Le manager `active` ne filtre que les objets racines.
-- [ ] Centraliser la sélection des objets visibles dans une méthode réutilisable afin que la
-  phase 4 ajoute les vues privées sans réécrire les serializers de lecture.
+- [x] Centraliser la sélection des objets visibles dans des fonctions réutilisables.
+  La phase 4 conservera la forme des réponses ; si elle expose des références privées,
+  elle devra aussi adapter explicitement les gardes publiques des serializers.
 - [ ] Produire le schéma OpenAPI avec drf-spectacular.
 - [ ] Ajouter des exemples de réponses et documenter les erreurs principales.
 - [ ] Tester les requêtes, filtres, données imbriquées et règles de visibilité.
+
+### Avancement — incrément 1 validé le 21 octobre 2026
+
+La consultation publique ne montre que les fiches publiées et non supprimées,
+y compris pour un administrateur connecté. Les références imbriquées masquées
+ne divulguent pas de fiche privée. Les libellés et messages publics sont en anglais.
+Claude a validé 286 cas de test et les contrôles qualité ; la revue de Codex
+n'a apporté que des précisions documentaires, sans changement fonctionnel.
+
+L'auteur a vérifié la liste publique vide, le 404 d'Oya encore en brouillon
+et sa présence dans l'administration, puis validé l'explication pédagogique.
+Les brouillons du pilote n'ont pas été publiés pour cette démonstration.
+
+Rapport : `docs/reports/phase-3-increment-1-public-read-contract.md` dans `afrimyth-api`.
+Prochain incrément : pagination, recherche et filtres combinables sur la collection publique.
+La tâche transverse des tests reste ouverte jusqu'à la consolidation de la phase.
 
 **Livrable attendu :** API de consultation documentée dans Swagger/ReDoc, utilisable sans
 authentification pour les entités publiées et couverte par des tests d'intégration.
 
 **Reprise prévue en phase 4 : 0,5 à 1 jour**, incluse dans l'estimation de cette phase. Elle
 porte sur les classes de permission, l'élargissement conditionnel du queryset aux objets
-privés et les tests associés. Les serializers de liste et de détail ne doivent pas être
-réécrits. Pendant la phase 3, les statuts sont posés par les fixtures, l'administration et
+privés et les tests associés. La forme des serializers reste stable ; une politique privée
+des références imbriquées nécessitera d'adapter leurs gardes publiques. Pendant la phase 3,
+les statuts sont posés par les fixtures, l'administration et
 l'import pilote ; les transitions HTTP arrivent en phase 4.
 
 ---
