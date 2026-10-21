@@ -319,9 +319,9 @@ lecture publique utilisent des fiches explicitement publiées dans leur base dé
 - [x] Centraliser la sélection des objets visibles dans des fonctions réutilisables.
   La phase 4 conservera la forme des réponses ; si elle expose des références privées,
   elle devra aussi adapter explicitement les gardes publiques des serializers.
-- [ ] Produire le schéma OpenAPI avec drf-spectacular.
-- [ ] Ajouter des exemples de réponses et documenter les erreurs principales.
-- [ ] Tester les requêtes, filtres, données imbriquées et règles de visibilité.
+- [x] Produire le schéma OpenAPI avec drf-spectacular.
+- [x] Ajouter des exemples de réponses et documenter les erreurs principales.
+- [x] Tester les requêtes, filtres, données imbriquées et règles de visibilité.
 
 ### Avancement — incrément 1 validé le 21 octobre 2026
 
@@ -362,6 +362,35 @@ par les tests automatiques, sans démonstration manuelle supplémentaire.
 Rapport : `docs/reports/phase-3-increment-2-navigation.md` dans `afrimyth-api`.
 Prochain incrément : OpenAPI, Swagger/ReDoc, exemples et validation finale.
 La phase 3 n'est pas encore terminée.
+
+### Clôture de la phase 3 — incrément 3 validé après essais Swagger/ReDoc
+
+OpenAPI décrit la liste paginée, le détail par slug et la santé, leurs
+paramètres, structures imbriquées, valeurs nulles, exemples synthétiques et
+erreurs. Swagger UI et ReDoc consomment le même schéma et sont accessibles
+sans connexion. Les données et routes métier restent en lecture seule.
+
+La revue a confirmé et testé le correctif d'un import DRF prématuré qui
+empêchait la lecture des réglages. L'essai navigateur a également révélé
+une incompatibilité de ReDoc `@latest` avec le gabarit : la version 2.5.3
+est maintenant fixée et son rendu a été vérifié.
+
+Claude a exécuté 398 tests et les contrôles globaux ; Codex a ajouté deux
+tests de régression et exécuté les contrôles ciblés concernés, dont les
+53 tests OpenAPI. Le total attendu devient 400, sans nouvelle exécution
+annoncée de la suite complète. Les résultats acquis sont réutilisés.
+
+L'auteur a validé la revue pédagogique (configuration, routes, annotations,
+exemples), le rendu Swagger et ses requêtes réelles : liste vide en 200,
+code pays invalide en 400 puis valide en 200, 404 identiques pour Oya en
+brouillon et un slug inconnu. Après correction, il a confirmé le chargement
+ReDoc et les paramètres, profils et références nullables documentés.
+Aucun brouillon du corpus n'a été publié pendant ces exercices.
+
+Rapport : `docs/reports/phase-3-increment-3-openapi.md` dans `afrimyth-api`.
+La phase 3 est terminée. Prochaine phase : authentification, CRUD et modération.
+La documentation et les descriptions actuellement « read-only » devront
+évoluer avec les opérations réellement livrées en phase 4, avec leurs tests.
 
 **Livrable attendu :** API de consultation documentée dans Swagger/ReDoc, utilisable sans
 authentification pour les entités publiées et couverte par des tests d'intégration.
