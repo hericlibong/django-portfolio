@@ -28,6 +28,11 @@ existantes est reportée à une passe documentaire dédiée, sans changement fon
 
 ## Exercices pédagogiques dans le terminal
 
+La revue doit aussi contrôler la sobriété du code : réutiliser les validations
+des bibliothèques, éviter les contrôles et fonctions auxiliaires redondants,
+et ne garder que les commentaires qui expliquent un choix utile. Ne pas
+supprimer une protection de sécurité ou un test de contrat au nom de la concision.
+
 Proposer des commandes courtes à exécuter une par une. Éviter les boucles et
 les blocs indentés, y compris `with`, même dans IPython. Prévoir une commande
 de nettoyage ciblée lorsqu'un exercice crée des données de démonstration.

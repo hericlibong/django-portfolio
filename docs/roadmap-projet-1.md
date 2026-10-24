@@ -410,7 +410,54 @@ Objectif : réaliser le cœur démonstratif du projet portfolio.
 
 **Estimation : 3 à 5 jours, dont 0,5 à 1 jour de reprise de la phase 3.**
 
-- [ ] Ajouter l'authentification JWT avec renouvellement de jeton.
+### Découpage validé — incréments courts et pédagogiques
+
+L'estimation reste indicative : cette phase mérite du temps pour comprendre
+et éprouver les permissions. Aucun code de phase 4 n'est lancé par ce plan.
+La matrice et les transitions de l'ADR 0002 restent la référence ; chaque
+prompt précisera le contrat nécessaire à son incrément, sans nouvelle
+architecture générique de rôles ou de workflow.
+
+| Incrément | Travail et livrable vérifiable | Exercice pratique prévu |
+|---|---|---|
+| 1 — Authentification JWT | Obtenir un jeton d'accès, le renouveler et vérifier son identité sur une petite route protégée. Pas d'inscription publique ni d'écriture métier. | Dans Postman : connexion, requête avec/sans jeton, jeton invalide, renouvellement. |
+| 2 — Rôles et lecture privée | Créer les trois groupes par migration ; appliquer rôle et propriété à la consultation privée. Conserver la consultation publique et ses protections. | Avec deux contributeurs et un relecteur : voir son brouillon, ne pas voir celui de l'autre, vérifier la vue du relecteur. |
+| 3 — Création | Créer une entité et son profil de façon atomique, attribuer le propriétaire côté serveur et encadrer les champs éditoriaux. Valider les rattachements et collections pris en charge par le contrat d'écriture. | POST autorisé avec jeton ; vérifier le propriétaire et le brouillon, puis une création invalide sans donnée partielle. |
+| 4 — Modification | Modifier les champs autorisés selon la matrice, préserver la cohérence type/profil et les relations ; interdire le détournement du propriétaire ou du statut par écriture ordinaire. | PATCH de sa fiche, tentative sur celle d'un autre et tentative de modifier directement le statut. |
+| 5 — Soumission et reprise | Actions explicites `draft → submitted`, retrait `submitted → draft`, reprise `rejected → draft`. Droits et dates cohérents ; pas de moteur de workflow. | Soumettre, constater le blocage de modification du contributeur, retirer puis modifier à nouveau. |
+| 6 — Modération | Actions `submitted → published`, `submitted → rejected` et réouverture `published → draft` réservée à l'administrateur ; renseigner la revue. | Un relecteur publie ou rejette ; vérifier la visibilité publique ; refus d'une publication par le contributeur. |
+| 7 — Suppression et restauration | Suppression logique selon la matrice, avec acteur/date ; protection d'une référence ayant des variantes actives ; restauration réservée à l'administrateur. Aucune suppression physique exposée. | Supprimer une fiche de démonstration autorisée, constater sa disparition puis sa restauration ; tester un refus. |
+| 8 — Consolidation | Compléter les croisements de la matrice, vérifier les codes 401/403/404 et les chemins d'écriture de l'administration concernés ; clôturer la documentation et les essais de bout en bout. | Parcours complet avec comptes fictifs : création, soumission, revue, publication, suppression/restauration. |
+
+Chaque incrément comprend ses tests, une revue de petits extraits de code et
+un exercice. La documentation OpenAPI/README évolue dès qu'une opération est
+livrée : elle n'attend pas l'incrément 8. Les droits ne seront pas laissés
+ouverts temporairement en attendant une « phase de sécurité » finale.
+
+La lecture privée nécessite d'expliciter le rendu des références imbriquées,
+pas seulement d'élargir le queryset public. Les règles des utilisateurs sans
+groupe, des groupes multiples et du superutilisateur devront être explicites
+dans le prompt de l'incrément 2, sans confondre `is_staff` et rôle métier.
+La modification du type et les écritures de profils, sources et relations
+seront précisées dans les prompts 3/4 avant d'ouvrir ces chemins d'écriture ;
+ne pas créer automatiquement un CRUD complet de tous les référentiels.
+
+### Postman — support pédagogique dès l'incrément 1
+
+Postman sert à exécuter et conserver les requêtes, pas à remplacer les tests
+pytest ni à porter les permissions. Utiliser des comptes et fiches fictifs,
+une adresse locale et des variables pour l'URL et les identifiants de fiches.
+Conserver mots de passe et jetons dans un espace local adapté (Postman Vault),
+jamais dans Git, les rapports ou un export de collection. Tout export partagé
+doit être nettoyé. Référence :
+[Postman Vault](https://learning.postman.com/docs/use/postman-vault/use-vault-secrets).
+
+La collection d'exercices se construit progressivement, sans infrastructure
+de tests supplémentaire ni comptes de démonstration avec mots de passe
+committés. Les deux premiers incréments pourront utiliser des comptes créés
+explicitement dans l'administration, sans ajouter une API d'inscription.
+
+- [x] Ajouter l'authentification JWT avec renouvellement de jeton.
 - [ ] Créer par migration les groupes `contributor`, `reviewer` et `administrator`.
 - [ ] Attribuer automatiquement `created_by` à la création.
 - [ ] Implémenter création, modification et suppression selon la matrice de permissions.
@@ -418,6 +465,34 @@ Objectif : réaliser le cœur démonstratif du projet portfolio.
 - [ ] Interdire la modification directe du statut par un `PATCH` ordinaire.
 - [ ] Ajouter les tests croisés rôle × propriétaire × statut × action.
 - [ ] Vérifier que les réponses refusées utilisent correctement `401`, `403` ou `404`.
+
+### Avancement — incrément 1 validé le 24 octobre 2026
+
+Simple JWT fournit l'obtention et le renouvellement des jetons ; la route
+`GET /api/auth/me/` expose uniquement l'identité de l'appelant et exige un
+accès JWT. Aucun rôle, accès aux brouillons ou CRUD du corpus n'est ajouté.
+Les réglages, routes et erreurs sont documentés dans OpenAPI et le README.
+
+La revue a corrigé une réponse 500 sur renouvellement après suppression du
+compte, remplacée par un refus 401 ciblé sans réécriture des contrôles JWT.
+Codex a exécuté 463 tests et les contrôles qualité, puis les trois tests
+affectés par les simplifications finales. Ces résultats sont réutilisés.
+
+L'auteur a confirmé le remplacement local de la clé de signature, créé un
+compte ordinaire de démonstration et préparé sa collection Postman et le
+Local Vault. Il a obtenu les deux jetons, observé le refus 401 d'un accès
+expiré, renouvelé cet accès puis vérifié `me` en 200 avec `id` et `username`.
+Les autres cas négatifs sont couverts automatiquement, sans les présenter
+comme des essais Postman effectués.
+
+L'accès reste valable cinq minutes et le refresh un jour. Le maintien de
+cinq minutes pour apprendre le mécanisme est validé ; une éventuelle durée
+plus longue limitée au développement sera consignée lorsqu'elle sera décidée,
+sans modifier implicitement un futur réglage de production.
+
+Rapport : `docs/reports/phase-4-increment-1-jwt.md` dans `afrimyth-api`.
+Prochain incrément : groupes Django, permissions et lecture privée.
+La phase 4 n'est pas terminée.
 
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
