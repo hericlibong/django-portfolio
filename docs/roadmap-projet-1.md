@@ -458,7 +458,7 @@ committés. Les deux premiers incréments pourront utiliser des comptes créés
 explicitement dans l'administration, sans ajouter une API d'inscription.
 
 - [x] Ajouter l'authentification JWT avec renouvellement de jeton.
-- [ ] Créer par migration les groupes `contributor`, `reviewer` et `administrator`.
+- [x] Créer par migration les groupes `contributor`, `reviewer` et `administrator`.
 - [ ] Attribuer automatiquement `created_by` à la création.
 - [ ] Implémenter création, modification et suppression selon la matrice de permissions.
 - [ ] Implémenter les actions explicites de soumission, publication, rejet et réouverture.
@@ -493,6 +493,37 @@ sans modifier implicitement un futur réglage de production.
 Rapport : `docs/reports/phase-4-increment-1-jwt.md` dans `afrimyth-api`.
 Prochain incrément : groupes Django, permissions et lecture privée.
 La phase 4 n'est pas terminée.
+
+### Avancement — incrément 2 validé le 27 octobre 2026
+
+Les trois groupes sont créés par migration sans affectation automatique.
+Les routes privées `/api/manage/entities/` et leur détail exigent un JWT et
+un rôle métier, puis filtrent les fiches selon rôle et propriété. Le contrat
+public est inchangé ; les références imbriquées suivent les droits de lecture.
+L'ADR 0004 précise les conventions sans groupe, superutilisateur et cumul.
+
+La revue technique de Codex a exécuté 169 tests ciblés et validé OpenAPI ; la
+suite complète de 573 cas est le résultat de Claude. Une petite amélioration
+demandée pendant les exercices affiche les groupes dans la liste admin des
+utilisateurs, avec préchargement et quatre tests supplémentaires passants.
+
+Essais Postman confirmés par l'auteur : refus 403 de `essai-postman` sans
+groupe ; contributeur A limité à Anansi après attribution manuelle ; détail
+Anansi 200 et Oya 404 ; relecteur `demo-selecteur` lisant Oya et les quatre
+fiches ; collection publique vide car toutes restent `draft` ; POST privé
+refusé en 405 avec un jeton valide. Les 401 dus à l'expiration et au mauvais
+type de jeton ont été distingués du contrôle des permissions.
+
+Les quatre fiches sont celles du corpus pilote, pas les fiches fictives du
+guide. Anansi appartient désormais à `demo-contrib-a` ; Oya, Mokele-mbembe
+et Shango restent sans propriétaire. Ne pas supprimer ces fiches lors d'un
+nettoyage de démonstration. Les autres scénarios du guide ne sont pas
+présentés comme effectués manuellement : ils restent couverts par les tests.
+
+Rapport : `docs/reports/phase-4-increment-2-private-read.md` dans `afrimyth-api`.
+Prochain incrément : création atomique d'une entité et de son profil via POST,
+propriétaire automatique et brouillon initial. Les tâches transverses de tests
+et de codes de refus restent ouvertes jusqu'à couverture des futures écritures.
 
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
