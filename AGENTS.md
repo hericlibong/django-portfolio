@@ -6,6 +6,10 @@ Règle validée par l'auteur du projet :
 
 - Codex assure la conception, les explications pédagogiques, la préparation
   des prompts et la revue des rapports et du code.
+- Codex prend directement en charge les guides et exercices Postman/ORM,
+  la documentation d'accompagnement, les mises à jour de roadmap, les petites
+  corrections et la clôture Git. Ne pas déléguer ces tâches à Claude CLI
+  lorsqu'elles peuvent être réalisées dans ce cadre.
 - Codex évalue l'impact des corrections relevées. Il applique directement les
   corrections légères, localisées et conformes aux décisions déjà validées,
   puis effectue les vérifications proportionnées et en garde une trace dans
@@ -13,6 +17,12 @@ Règle validée par l'auteur du projet :
 - Les tâches complètes et les corrections importantes ou impactantes sont
   confiées à Claude CLI au moyen d'un prompt lisible par l'auteur avant son
   exécution. L'auteur transmet ce prompt à Claude CLI.
+
+Les prochains prompts cantonnent Claude CLI à l'implémentation nécessaire,
+à ses tests et vérifications, ainsi qu'à un rapport factuel court. Les
+annotations OpenAPI ou autres éléments indissociables du contrat implémenté
+restent dans ce périmètre ; les guides pédagogiques séparés sont préparés
+par Codex après revue. Ne pas ajouter de livrables secondaires systématiques.
 
 L'évaluation porte sur le risque et le périmètre, pas seulement sur le nombre
 de lignes : une correction qui change le schéma, les décisions métier, les

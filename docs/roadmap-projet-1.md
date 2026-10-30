@@ -459,8 +459,10 @@ explicitement dans l'administration, sans ajouter une API d'inscription.
 
 - [x] Ajouter l'authentification JWT avec renouvellement de jeton.
 - [x] Créer par migration les groupes `contributor`, `reviewer` et `administrator`.
-- [ ] Attribuer automatiquement `created_by` à la création.
-- [ ] Implémenter création, modification et suppression selon la matrice de permissions.
+- [x] Attribuer automatiquement `created_by` à la création.
+- [x] Implémenter la création selon la matrice de permissions.
+- [ ] Implémenter la modification selon la matrice de permissions.
+- [ ] Implémenter la suppression selon la matrice de permissions.
 - [ ] Implémenter les actions explicites de soumission, publication, rejet et réouverture.
 - [ ] Interdire la modification directe du statut par un `PATCH` ordinaire.
 - [ ] Ajouter les tests croisés rôle × propriétaire × statut × action.
@@ -524,6 +526,35 @@ Rapport : `docs/reports/phase-4-increment-2-private-read.md` dans `afrimyth-api`
 Prochain incrément : création atomique d'une entité et de son profil via POST,
 propriétaire automatique et brouillon initial. Les tâches transverses de tests
 et de codes de refus restent ouvertes jusqu'à couverture des futures écritures.
+
+### Avancement — incrément 3 validé le 30 octobre 2026
+
+`POST /api/manage/entities/` crée une entité avec le profil correspondant à
+son type, impose le compte appelant comme propriétaire et le statut `draft`.
+Les référentiels existants et variantes autorisées peuvent être rattachés.
+Une transaction couvre le couple entité/profil et les collections M2M.
+Modification, suppression et transitions restent fermées ; les sources et
+relations imbriquées sont différées. OpenAPI et README sont actualisés.
+
+La revue a corrigé la conversion silencieuse d'un nombre en chaîne dans les
+tableaux, avec quatre tests supplémentaires. Claude rapporte 691 tests
+passants avant correction ; Codex a exécuté 123 tests ciblés après correction.
+695 cas sont collectés, sans prétendre qu'une nouvelle suite complète a été
+relancée. Avant clôture, 91 lignes de commentaires/docstrings redondants ont
+été retirées ; l'AST hors docstrings confirme des instructions inchangées.
+
+Essais Postman confirmés : création du héros fictif `demo-create-hero-a`
+avec profil, statut `draft` et propriétaire 3 (`demo-contrib-a`), relecture
+privée identique, détail public en 404, refus d'un statut fourni par le
+client puis absence de la fiche refusée, refus d'un profil de divinité pour
+un héros et refus d'un slug déjà utilisé. Les autres cas sont couverts
+automatiquement, sans être présentés comme exécutés à la main.
+
+La fiche fictive créée est conservée pour l'incrément 4. Anansi reste
+attribuée au contributeur A ; les trois autres fiches du corpus restent
+inchangées. Rapport : `docs/reports/phase-4-increment-3-create.md` dans
+`afrimyth-api`. Prochain incrément : modification contrôlée des fiches.
+La phase 4 n'est pas terminée.
 
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
