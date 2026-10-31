@@ -596,6 +596,35 @@ une piste de maintenance à évaluer, sans réorganisation effectuée ici.
 
 Prochain incrément : **5 — soumission et reprise**. La phase 4 reste ouverte.
 
+### Incrément 5 — soumission et reprise, terminé le 31 octobre 2026
+
+Trois actions POST privées (submit, withdraw, resume) assurent draft → submitted,
+submitted → draft et rejected → draft, selon rôle et propriété. Le propriétaire
+peut retirer sa soumission malgré l'interdiction de PATCH sur submitted.
+Visibilité, droit et statut sont relus sous verrou ; les corps non vides et
+transitions invalides sont refusés sans mutation. Dates de soumission et marques
+de revue suivent le contrat du prompt, sans nouveau seuil de complétude.
+
+Revue : aucune correction fonctionnelle nécessaire ; deux descriptions OpenAPI
+rectifiées et trois tests redondants retirés. Passage complet de Claude confirmé :
+964 réussites avant ces retouches ; revue Codex : 31 tests ciblés réussis,
+typage/format conformes, 961 tests collectés après simplification (pas une seconde
+exécution complète). Les anciennes suites n'ont pas été cumulées inutilement
+avec le passage final. Résultats réutilisés pour la clôture documentaire.
+
+Postman confirmé : état initial, soumission, PATCH contributeur en 403,
+retrait autorisé, contenu conservé puis PATCH rétabli ; corps status refusé et
+retrait d'un draft refusé en 400. Rejet préparé manuellement dans l'admin sur
+la seule fiche fictive, puis reprise via resume en 200. La fiche reste en draft,
+propriétaire 3, catégorie « Village protector after withdrawal » et submitted_at
+null. Aucun enfant supplémentaire créé, aucun changement des fiches du corpus.
+Les autres croisements restent couverts automatiquement.
+
+Rapport API : `docs/reports/phase-4-increment-5-submit-resume.md`.
+Prochaine étape : **incrément 6 — modération** (publication, rejet, réouverture
+réservée à l'administrateur), à cadrer avant toute implémentation.
+La phase 4 n'est pas terminée.
+
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
 
