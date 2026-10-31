@@ -36,6 +36,26 @@ Les docstrings du code sont en anglais, y compris les docstrings internes.
 Appliquer cette règle au nouveau code ; la traduction des docstrings françaises
 existantes est reportée à une passe documentaire dédiée, sans changement fonctionnel.
 
+## Vérifications utiles et proportionnées
+
+- Pendant l'implémentation, exécuter les tests ciblés sur le comportement
+  travaillé. Prévoir un seul passage complet final par état fonctionnel,
+  sans enchaîner systématiquement toutes les suites ciblées, toutes les
+  régressions puis toute la suite sur le même code inchangé.
+  Ne pas lancer séparément les anciennes suites juste avant la suite complète,
+  sauf modification pertinente ou échec identifié à vérifier entre les deux.
+- Après correction, relancer seulement les contrôles affectés. Un nouveau
+  passage complet doit être motivé par le risque ou des changements transverses,
+  pas par une modification de rapport, de commentaire ou de format.
+- La revue Codex contrôle l'utilité des tests : conserver les comportements
+  distincts, la sécurité, l'intégrité et les contrats publics ; supprimer les
+  vrais doublons et remplacer les assertions sur des détails d'implémentation
+  lorsqu'une vérification de comportement apporte la même garantie.
+- Ne pas fixer de quota arbitraire de lignes ou de tests. Les cas paramétrés
+  doivent couvrir des risques distincts, pas multiplier artificiellement
+  les décomptes. Consigner les simplifications et les résultats réutilisés
+  dans le rapport de l'incrément, avant sa clôture.
+
 ## Exercices pédagogiques dans le terminal
 
 La revue doit aussi contrôler la sobriété du code : réutiliser les validations

@@ -556,6 +556,46 @@ inchangées. Rapport : `docs/reports/phase-4-increment-3-create.md` dans
 `afrimyth-api`. Prochain incrément : modification contrôlée des fiches.
 La phase 4 n'est pas terminée.
 
+Préparation de l'incrément 4, validée par l'auteur le 30 octobre : deux lots,
+4A (champs, profil et rattachements) puis 4B (sources et relations). L'ADR 0005
+est acceptée : le PATCH ordinaire ne change pas le type ; un reclassement
+nécessiterait une opération distincte définie ultérieurement. Le prompt 4A
+a été transmis à Claude CLI ; les deux lots ont ensuite été revus et validés.
+
+### Incrément 4 — modification contrôlée, terminé le 31 octobre 2026
+
+Lots 4A et 4B validés après revue du code et exercices Postman : PATCH des
+champs métier, profil et rattachements ; POST/PATCH/DELETE individuels des
+sources et relations, avec les droits de modification de la fiche porteuse.
+Type, propriétaire, statut et suppression d'entité restent protégés.
+Les références privées conservent les filtres de visibilité et les enfants
+ne peuvent pas être atteints sous le slug d'une autre fiche.
+
+Vérifications proportionnées : Claude rapporte 888 tests réussis avant les
+corrections localisées de la revue 4B ; Codex a validé 39 tests ciblés après
+ces corrections. Les contrôles 4A et JWT sont tracés dans leur rapport.
+Aucune relance complète à la clôture documentaire. Les relances évitables
+et les simplifications de tests sont consignées ; les consignes des deux
+dépôts interdisent désormais explicitement le cumul non justifié d'anciennes
+suites avec le passage complet final.
+
+Essais 4A : modification partielle, champs omis conservés, liste vidée,
+refus du statut/type/profil incompatible, contributeur B en 404, relecteur
+autorisé, principal/secondaire cohérent et PUT refusé. Essais 4B : création,
+modification et suppression des deux enfants, refus du doublon de relation,
+de l'auto-relation et d'un mauvais parent ; erreur de source sans modification
+à la relecture. Nettoyage confirmé par GET : source 2 et relation 10 supprimées,
+héros fictif conservé avec sources/relations vides. Aucun changement du corpus.
+
+Rapports du dépôt API : `docs/reports/phase-4-increment-4a-update.md` et
+`docs/reports/phase-4-increment-4b-sources-relations.md`. Accès de développement
+porté à 20 minutes pour les exercices ; 5 minutes hors debug conservées.
+Revenir sur ce réglage avant la finalisation de l'API. La longueur des modules
+serializers/views a été discutée : une séparation par responsabilités est
+une piste de maintenance à évaluer, sans réorganisation effectuée ici.
+
+Prochain incrément : **5 — soumission et reprise**. La phase 4 reste ouverte.
+
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
 
