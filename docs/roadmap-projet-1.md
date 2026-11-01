@@ -654,8 +654,42 @@ aucun changement du corpus. L'absence de champs de revue publics est couverte
 automatiquement, sans confirmation manuelle détaillée distincte.
 
 Résultats de revue réutilisés pour la clôture, sans relance complète pour la
-documentation. Prochaine étape : **incrément 7 — suppression logique et
-restauration**, à cadrer ; la phase 4 reste ouverte.
+documentation. Étape suivante : **incrément 7 — suppression logique et
+restauration**, désormais validé et clôturé ci-dessous.
+La phase 4 reste ouverte.
+
+### Incrément 7 — terminé le 1er novembre 2026
+
+DELETE logique de l'entité selon la matrice, POST restore réservé à l'admin,
+contenu/statut/enfants conservés ; protection des références ayant des variantes
+actives, coordination création/PATCH/restauration. Aucun effacement physique
+d'entité, liste de corbeille ou nouveau statut. Restore conserve le statut :
+un published restauré redevient public, un draft reste privé.
+
+La revue a identifié un risque d'interblocage dans la première implémentation.
+Claude l'a corrigé par acquisition ordonnée des lignes et ajouté un test réel
+multiconnexion, sans interdiction nouvelle des cycles. Passage complet initial :
+1 108 réussites et 1 ancien test attendant encore DELETE en 405 échoué ;
+ce test est adapté et 236 tests affectés passent après correction. Pas de
+seconde suite complète. Revue Codex : 29 tests ciblés réussis (dont le test
+concurrent réel), typage/format conformes, 1 109 tests collectés. Un test de
+création a été renforcé pour viser la fenêtre après validation ; comptes
+inutilisés évités dans les matrices, sans perte de couverture.
+
+Rapport API : `docs/reports/phase-4-increment-7-soft-delete-restore.md`.
+Explications différées : `docs/verifications-code/phase-4-increment-7-soft-delete-restore.md`.
+Le prompt correctif et son périmètre sont conservés dans `docs/prompts/`.
+Postman confirmé sur la seule fiche fictive demo-create-hero-a : lecture privée
+initiale, DELETE propriétaire en 204, GET et second DELETE en 404 ; restore
+contributeur en 403, restauration administrateur avec fiche accessible, puis
+seconde restauration refusée en 400. Aucun nouveau compte ou enfant, aucune
+purge ou modification du corpus ; fiche conservée après restauration. Les
+variantes, la conservation détaillée des colonnes et le cas published sont
+couverts automatiquement sans être présentés comme exécutés manuellement.
+
+Clôture documentaire et Git sans relance des suites inchangées. Prochaine étape :
+**incrément 8 — consolidation et validation finale de la phase 4**. La phase 4
+ne sera clôturée qu'après cette consolidation ciblée sur les écarts restants.
 
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
