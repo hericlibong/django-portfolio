@@ -726,10 +726,10 @@ matrice de permissions intégralement couverte par les tests.
 
 ## Phase 5 — Import maîtrisé du corpus V2
 
-**État au 1er novembre 2026 : commande complète livrée ; import réel non
-effectué. Les six tâches de préparation ci-dessous sont réalisées. Restent
-l'import réel avec sauvegarde, puis sa seconde exécution. La simulation
-séparée de l'incrément 2 a été abandonnée avec l'accord de l'auteur.**
+**État au 1er novembre 2026 : import réel terminé, 44 figures du corpus
+présentes en base, plus une démonstration. Les huit tâches ci-dessous sont
+réalisées. La simulation séparée a été annulée ; les lectures Postman et
+la clôture technique/Git restent à finaliser, sans nouvel import requis.**
 
 Objectif : charger les 44 entités sans faire du fichier JSON la nouvelle base de données.
 
@@ -756,7 +756,7 @@ globale reste indicative, sans promesse de durée par incrément.
 |---|---|---|
 | 1 — Étendre la commande | Code et tests livrés par Claude ; rapport et changements examinés par Codex pour actualiser ce suivi. Clôture technique/Git à finaliser avant exécution. | La commande sait désormais sélectionner toutes les figures du JSON avec `--all`, au lieu des trois seules du pilote. Les données ne sont pas encore chargées dans l'API locale. |
 | 2 — Simulation séparée | Annulée par décision de l'auteur, sans exécution sur la base locale. | Aucun nouveau livrable attendu. |
-| 3 — Importer et valider | Non commencé. | Après import, les nouvelles fiches seront consultables dans la base locale et par les routes privées autorisées ; une relance devra préserver l'existant sans doublon. |
+| 3 — Importer et valider | Import et seconde exécution terminés ; rapport vérifié par Codex et état final corroboré en lecture seule. | 40 nouvelles fiches, 4 figures du corpus préservées et une démonstration conservée : 45 au total. Les nouvelles données sont désormais consultables sur les routes privées autorisées. Restent les quelques lectures Postman prévues. |
 
 La simulation de Claude a lu les 44 figures dans une base temporaire vide :
 44 créations tentées, puis annulées. Cette base a ensuite été détruite ;
@@ -781,6 +781,21 @@ Le prompt actif demandé pour Claude est :
 Périmètre : sauvegarde, import réel, vérification de préservation et unique
 réexécution, sans code ni relance des tests. Sa préparation ne signifie
 pas que l'import a été exécuté.
+
+**Résultat désormais acquis — incrément 3.** Sauvegarde PostgreSQL conservée
+hors Git et catalogue vérifié. Premier import : 40 créations et 4 figures
+existantes ignorées ; seconde exécution : 0 création et 44 ignorées. Claude
+rapporte la préservation des cinq fiches antérieures et un état strictement
+identique après le second appel. Codex a confirmé en transaction READ ONLY
+les 44 identités source, les 45 fiches totales, les 40 nouveaux brouillons
+avec profils cohérents, les décomptes et les limites annoncées. Aucun import
+ni test relancé pendant cette vérification.
+
+Les trois relations anciennes d'Oya restent par nom et Shango conserve son
+absence préexistante de profil : ces limites sont enregistrées sans réparation
+implicite. Rapport API : `docs/reports/phase-5-increment-3-import-reel.md`.
+Cette livraison est terminée ; la phase n'est pas déclarée close avant son
+suivi final. Aucune nouvelle tâche confiée à Claude pour refaire cet import.
 
 ### Règles communes et critères de clôture
 
@@ -823,8 +838,8 @@ n'est lancé par la seule mise à jour de ce découpage.
 - [x] Appliquer les décisions prises sur les ethnies, les pays et les domaines — correspondances explicites, valeurs ambiguës conservées sans fusion inventée.
 - [x] Signaler explicitement dans le rapport d'import les champs non importés, dont
   `origin.pantheon`.
-- [ ] Importer les 44 entités après validation du pilote — compléter la base existante, sans recréer ni écraser les fiches déjà présentes.
-- [ ] Tester une seconde exécution pour prouver l'absence de doublons — sur la base de développement après l'import réel.
+- [x] Importer les 44 entités après validation du pilote — 40 créées et 4 figures antérieures préservées ; démonstration conservée.
+- [x] Tester une seconde exécution pour prouver l'absence de doublons — 0 création, 44 ignorées, état après le premier import conservé selon le relevé Claude.
 
 Les réserves du rapport sur `Congo`, les termes proches et les descendants
 ne sont pas de nouvelles tâches de développement obligatoires : l'import
