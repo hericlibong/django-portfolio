@@ -1,5 +1,9 @@
 # Phase 5 — Incrément 2 : simulation sur la base existante
 
+**ANNULÉ — ne pas exécuter.** L'auteur a accepté de supprimer la simulation
+séparée. Utiliser `phase-5-increment-3-import-reel.md` pour l'import avec
+sauvegarde préalable. Le contenu ci-dessous reste une trace historique.
+
 ## Objectif unique
 
 Travaille dans `C:\Users\heric\dev\afrimyth-api`, selon ses consignes.

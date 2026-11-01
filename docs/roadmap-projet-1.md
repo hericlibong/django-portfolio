@@ -728,7 +728,8 @@ matrice de permissions intégralement couverte par les tests.
 
 **État au 1er novembre 2026 : commande complète livrée ; import réel non
 effectué. Les six tâches de préparation ci-dessous sont réalisées. Restent
-le contrôle sur la base existante, puis l'import et sa seconde exécution.**
+l'import réel avec sauvegarde, puis sa seconde exécution. La simulation
+séparée de l'incrément 2 a été abandonnée avec l'accord de l'auteur.**
 
 Objectif : charger les 44 entités sans faire du fichier JSON la nouvelle base de données.
 
@@ -736,16 +737,17 @@ Objectif : charger les 44 entités sans faire du fichier JSON la nouvelle base d
 
 ### Découpage — trois incréments, sans élargissement du périmètre
 
-Le découpage sépare la préparation du code, sa simulation sur le corpus réel
-et l'écriture effective. Il ne crée pas trois chantiers de développement :
-seul le premier est confié à Claude CLI. Les deux suivants sont conduits par
-Codex avec l'auteur. L'estimation globale reste indicative, sans promesse de
-durée par incrément.
+Le découpage initial est conservé pour la traçabilité, avec l'incrément 2
+annulé : la simulation sur corpus réel en base de tests est déjà acquise.
+On passe de la commande livrée à son utilisation réelle avec sauvegarde.
+L'auteur demande l'exécution de l'import par Claude CLI ; Codex conserve
+le suivi documentaire, la revue et les lectures Postman. L'estimation
+globale reste indicative, sans promesse de durée par incrément.
 
 | Incrément | Travail et livrable vérifiable | Vérification pratique et raison |
 |---|---|---|
 | 1 — Étendre la commande | Ajouter `--all` à la commande existante, conserver le mode pilote et couvrir les différences réelles du corpus. Créer les référentiels, profils et liens selon les décisions déjà validées ; conserver les exclusions explicites. Tests en base de tests uniquement. | Revue Codex du rapport, des transformations et des tests : vérifier que les 44 fiches sont prises en charge sans modifier le contrat API ni écraser les fiches existantes. Aucun import dans la base de développement. |
-| 2 — Simuler le corpus complet | Après revue, exécuter `--all --dry-run` sur le JSON source et relever créations prévues, fiches ignorées, liens et omissions. Comparer l'état utile de la base avant/après. | Dans le terminal : confirmer que la simulation ne laisse aucune donnée persistante et que le bilan explique le traitement des 44 entrées. Examiner seulement les ambiguïtés ou conflits réellement rencontrés avant l'import. |
+| 2 — Simulation séparée, annulée | Aucun travail supplémentaire demandé. La simulation des 44 figures en base de tests est déjà acquise à l'incrément 1. | Ne pas lancer l'ancien prompt de simulation sur la base locale. |
 | 3 — Importer et valider | Après validation du bilan, sauvegarder la base locale, exécuter l'import réel, puis relancer la même commande. Contrôler les profils, rattachements et relations ainsi que la préservation des fiches antérieures. Clôturer rapport et roadmap. | Dans le terminal/ORM : vérifier les fiches du corpus, puis l'absence de doublons et d'écrasement à la seconde exécution. Dans Postman : lire quelques fiches importées avec un rôle autorisé et vérifier un filtre ou une relation représentative, pour confirmer que les données sont utilisables par l'API. |
 
 ### Où nous en sommes — livraison de l'incrément 1
@@ -753,7 +755,7 @@ durée par incrément.
 | Incrément | État réel | Résultat visible pour l'auteur |
 |---|---|---|
 | 1 — Étendre la commande | Code et tests livrés par Claude ; rapport et changements examinés par Codex pour actualiser ce suivi. Clôture technique/Git à finaliser avant exécution. | La commande sait désormais sélectionner toutes les figures du JSON avec `--all`, au lieu des trois seules du pilote. Les données ne sont pas encore chargées dans l'API locale. |
-| 2 — Simuler le corpus complet | Simulation sur base de tests vide déjà effectuée par Claude. Reste le contrôle de cohabitation sur la base de développement existante. | Identifier les fiches déjà présentes et celles à créer, sans conserver les écritures de la simulation. Ce contrôle n'est pas une nouvelle implémentation. |
+| 2 — Simulation séparée | Annulée par décision de l'auteur, sans exécution sur la base locale. | Aucun nouveau livrable attendu. |
 | 3 — Importer et valider | Non commencé. | Après import, les nouvelles fiches seront consultables dans la base locale et par les routes privées autorisées ; une relance devra préserver l'existant sans doublon. |
 
 La simulation de Claude a lu les 44 figures dans une base temporaire vide :
@@ -762,24 +764,23 @@ elle n'est ni un environnement à ouvrir ni une livraison à consulter dans
 Postman. Elle prouve le fonctionnement sur le corpus source, pas encore la
 cohabitation avec les fiches déjà présentes dans notre base de développement.
 
-L'incrément 2 conserve donc un seul objectif restant : annoncer, sur cette
-base existante, ce qui sera créé ou préservé avant l'écriture réelle. Ne pas
-rejouer la simulation sur base vide ou toute la batterie de tests. La revue
-Codex désigne le contrôle interne du code livré et des consignes avant usage ;
-elle n'impose pas une nouvelle séance pédagogique à l'auteur.
+La simulation séparée n'est plus un préalable : utiliser les garanties
+transactionnelles déjà testées et une sauvegarde de la base avant l'import.
+Ne pas rejouer la simulation sur base vide ou toute la batterie de tests.
+La revue Codex est un contrôle interne du livrable, sans nouvelle séance
+pédagogique imposée à l'auteur.
 
 Rapport du livrable :
 `C:\Users\heric\dev\afrimyth-api\docs\reports\phase-5-increment-1-import-complet.md`.
 Les résultats acquis sont réutilisés : 1 126 tests réussis, sans relance
 nécessaire pour cette mise à jour documentaire.
 
-À la demande de l'auteur, le prompt de l'incrément 2 est préparé pour
-Claude CLI : `docs/prompts/phase-5-increment-2-simulation-base-existante.md`.
-Cette demande remplace, pour cette opération seulement, la répartition
-Codex prévue plus haut. Périmètre : un seul `--all --dry-run` sur la base
-existante et comparaison avant/après, sans code ni relance de tests.
-Prompt préparé ne signifie pas simulation exécutée ; l'import réel reste
-réservé à l'incrément 3.
+L'ancien prompt de l'incrément 2 porte la mention ANNULÉ.
+Le prompt actif demandé pour Claude est :
+`docs/prompts/phase-5-increment-3-import-reel.md`.
+Périmètre : sauvegarde, import réel, vérification de préservation et unique
+réexécution, sans code ni relance des tests. Sa préparation ne signifie
+pas que l'import a été exécuté.
 
 ### Règles communes et critères de clôture
 
@@ -810,9 +811,8 @@ réservé à l'incrément 3.
 
 Le prompt de l'incrément 1, désormais livré, est conservé ici :
 `docs/prompts/phase-5-increment-1-import-complet.md`. Il couvre uniquement la
-préparation et les tests, pas les opérations des incréments 2 et 3. Les
-commandes de ces derniers seront présentées une par une, avec leur résultat
-attendu, après revue du livrable ; aucun import n'est lancé par ce découpage.
+préparation et les tests, pas l'import réel de l'incrément 3. Aucun import
+n'est lancé par la seule mise à jour de ce découpage.
 
 ### Suivi de réalisation
 
