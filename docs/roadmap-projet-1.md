@@ -729,16 +729,58 @@ matrice de permissions intégralement couverte par les tests.
 **Engagée le 1er novembre 2026 : préparation de l'import complet. Aucun import
 réel des 44 fiches n'est encore déclaré exécuté.**
 
-Deux étapes seulement : (1) étendre la commande pilote en conservant son mode
-historique, tests et simulation après revue ; (2) import réel autorisé et
-seconde exécution vérifiant l'idempotence. Le premier prompt est dans
-`docs/prompts/phase-5-increment-1-import-complet.md`. L'import n'écrase pas les
-fiches existantes ni les corrections/données de démonstration. Un blocage
-réel de correspondance ou de données existantes est signalé avant mutation.
-
 Objectif : charger les 44 entités sans faire du fichier JSON la nouvelle base de données.
 
 **Estimation : 1 à 2 jours.**
+
+### Découpage — trois incréments, sans élargissement du périmètre
+
+Le découpage sépare la préparation du code, sa simulation sur le corpus réel
+et l'écriture effective. Il ne crée pas trois chantiers de développement :
+seul le premier est confié à Claude CLI. Les deux suivants sont conduits par
+Codex avec l'auteur. L'estimation globale reste indicative, sans promesse de
+durée par incrément.
+
+| Incrément | Travail et livrable vérifiable | Vérification pratique et raison |
+|---|---|---|
+| 1 — Étendre la commande | Ajouter `--all` à la commande existante, conserver le mode pilote et couvrir les différences réelles du corpus. Créer les référentiels, profils et liens selon les décisions déjà validées ; conserver les exclusions explicites. Tests en base de tests uniquement. | Revue Codex du rapport, des transformations et des tests : vérifier que les 44 fiches sont prises en charge sans modifier le contrat API ni écraser les fiches existantes. Aucun import dans la base de développement. |
+| 2 — Simuler le corpus complet | Après revue, exécuter `--all --dry-run` sur le JSON source et relever créations prévues, fiches ignorées, liens et omissions. Comparer l'état utile de la base avant/après. | Dans le terminal : confirmer que la simulation ne laisse aucune donnée persistante et que le bilan explique le traitement des 44 entrées. Examiner seulement les ambiguïtés ou conflits réellement rencontrés avant l'import. |
+| 3 — Importer et valider | Après validation du bilan, sauvegarder la base locale, exécuter l'import réel, puis relancer la même commande. Contrôler les profils, rattachements et relations ainsi que la préservation des fiches antérieures. Clôturer rapport et roadmap. | Dans le terminal/ORM : vérifier les fiches du corpus, puis l'absence de doublons et d'écrasement à la seconde exécution. Dans Postman : lire quelques fiches importées avec un rôle autorisé et vérifier un filtre ou une relation représentative, pour confirmer que les données sont utilisables par l'API. |
+
+### Règles communes et critères de clôture
+
+- Le JSON source reste en lecture seule. Aucune copie du corpus, des images
+  ou du code de V2 dans le dépôt API ; aucun nouvel importeur générique.
+- Les fiches existantes sont préservées : contenu, profil, propriétaire,
+  statut, revue et collections. Pas de remise en brouillon, restauration,
+  réparation ou enrichissement implicite. Les démonstrations sont conservées.
+- Les nouvelles fiches sont des brouillons sans propriétaire, avec leur
+  profil correspondant. L'import ne vaut ni revue éditoriale ni publication.
+- Le bilan distingue les 44 entrées source des créations effectives : les
+  fiches déjà présentes réduisent ce nombre, les démonstrations augmentent
+  le nombre total en base. Un total global différent de 44 n'est pas une erreur.
+- Les cibles absentes sont conservées par nom. Les conflits d'identité ou
+  transformations non décidées sont explicités, sans rapprochement inventé.
+  Seul un problème empêchant l'import correct suspend l'étape concernée.
+- Les essais Postman restent courts et portent sur le corpus importé ; ne
+  pas rejouer la matrice de permissions de phase 4. Un contributeur ne voit
+  pas automatiquement les brouillons importés sans propriétaire : utiliser
+  un compte autorisé par les règles existantes. Aucune publication de masse
+  pour rendre artificiellement la collection publique visible.
+- Réutiliser les contrôles acquis sur le même code. Ne pas relancer toute
+  la suite pour une simulation, une opération d'import ou une mise à jour
+  documentaire seule. Toute correction révélée appelle des tests proportionnés.
+- Les explications différées, commandes pratiques, notes et clôtures Git
+  restent du ressort de Codex. Pas de nouvelle interface, correction admin,
+  refonte des serializers ou travaux Docker/CI de phase 6 dans cette phase.
+
+Le prompt de l'incrément 1 est prêt :
+`docs/prompts/phase-5-increment-1-import-complet.md`. Il couvre uniquement la
+préparation et les tests, pas les opérations des incréments 2 et 3. Les
+commandes de ces derniers seront présentées une par une, avec leur résultat
+attendu, après revue du livrable ; aucun import n'est lancé par ce découpage.
+
+### Suivi de réalisation
 
 - [ ] Compléter la commande amorcée et validée sur trois entités en phase 2.
 - [ ] Rendre la commande d'import idempotente.
