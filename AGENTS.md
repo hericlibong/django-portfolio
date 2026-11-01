@@ -56,6 +56,28 @@ existantes est reportée à une passe documentaire dédiée, sans changement fon
   les décomptes. Consigner les simplifications et les résultats réutilisés
   dans le rapport de l'incrément, avant sa clôture.
 
+## Revue pédagogique et pratique — méthode validée le 1er novembre 2026
+
+- Codex conserve la revue technique proportionnée (sécurité, cohérence,
+  contrat et sobriété), ses corrections légères et sa trace dans le rapport.
+  Ne pas confondre cette revue avec le déroulé pédagogique dans le chat.
+- Les explications pédagogiques du code sont désormais déposées par Codex
+  dans `docs/verifications-code/`, un fichier par incrément ou lot, avec
+  les mêmes extraits et explications que ceux qui auraient été présentés
+  dans la conversation. Ne pas les remplacer par un simple inventaire.
+  L'auteur pourra les lire plus tard ; cette lecture n'est plus un préalable
+  aux exercices. Ne pas redemander « compris ? » après chaque bloc de code.
+- Dans le chat, donner le lien vers le fichier et seulement le bilan utile
+  ou les points nécessitant une décision, puis passer à la pratique.
+- Avant chaque séance Postman, annoncer la liste précise des vérifications,
+  leur résultat attendu et pourquoi chacune est utile. Puis guider les
+  manipulations une à une, sans reprendre tout le code ou répéter les tests
+  automatiques. Mettre à jour l'état réel dans la roadmap sans présenter
+  comme terminé un incrément dont les exercices restent à valider.
+- Ces documents et exercices restent du ressort de Codex : ne pas ajouter
+  leur production au prompt d'implémentation de Claude. La revue générale
+  ultérieure ne remplace pas les protections nécessaires avant les essais.
+
 ## Exercices pédagogiques dans le terminal
 
 La revue doit aussi contrôler la sobriété du code : réutiliser les validations

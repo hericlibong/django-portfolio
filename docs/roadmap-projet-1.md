@@ -622,8 +622,40 @@ Les autres croisements restent couverts automatiquement.
 
 Rapport API : `docs/reports/phase-4-increment-5-submit-resume.md`.
 Prochaine étape : **incrément 6 — modération** (publication, rejet, réouverture
-réservée à l'administrateur), à cadrer avant toute implémentation.
+réservée à l'administrateur), désormais validé et clôturé ci-dessous.
 La phase 4 n'est pas terminée.
+
+### Incrément 6 — modération, terminé le 1er novembre 2026
+
+Publication et rejet de submitted par reviewer/administrator ; réouverture
+published → draft réservée à administrator. Motif de rejet obligatoire,
+note de publication facultative, dates et relecteur côté serveur ; revue
+conservée à la réouverture puis effacée à la soumission suivante.
+
+Revue technique du 31 octobre : pas de correction fonctionnelle nécessaire ;
+documentation contradictoire corrigée, cinq doublons de tests retirés et une
+simulation trompeuse remplacée par un contrôle de visibilité après suppression
+intermédiaire. 1 061 réussites de Claude avant revue ; 31 tests ciblés réussis
+après retouches, 1 056 cas collectés, sans seconde suite complète.
+Rapport API : `docs/reports/phase-4-increment-6-moderation.md`.
+
+À compter du 1er novembre, les explications pédagogiques sont conservées dans
+`docs/verifications-code/phase-4-increment-6-moderation.md`. La lecture différée
+du code ne bloque plus Postman ; chaque séance commence par les contrôles
+prévus et leur objectif.
+
+Postman validé le 1er novembre sur la seule fiche fictive : refus de publication
+par le contributeur, rejet sans motif refusé, rejet motivé et absence publique,
+reprise puis resoumission effaçant l'ancienne revue ; publication par le relecteur
+et visibilité publique, reopen refusé au relecteur puis accepté à l'administrateur,
+disparition publique finale. Le brouillon reste conservé, propriétaire 3,
+reviewed_by 5 et note de publication conservés ; aucun nouveau compte ou enfant,
+aucun changement du corpus. L'absence de champs de revue publics est couverte
+automatiquement, sans confirmation manuelle détaillée distincte.
+
+Résultats de revue réutilisés pour la clôture, sans relance complète pour la
+documentation. Prochaine étape : **incrément 7 — suppression logique et
+restauration**, à cadrer ; la phase 4 reste ouverte.
 
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
