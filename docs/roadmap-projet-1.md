@@ -773,6 +773,14 @@ Rapport du livrable :
 Les résultats acquis sont réutilisés : 1 126 tests réussis, sans relance
 nécessaire pour cette mise à jour documentaire.
 
+À la demande de l'auteur, le prompt de l'incrément 2 est préparé pour
+Claude CLI : `docs/prompts/phase-5-increment-2-simulation-base-existante.md`.
+Cette demande remplace, pour cette opération seulement, la répartition
+Codex prévue plus haut. Périmètre : un seul `--all --dry-run` sur la base
+existante et comparaison avant/après, sans code ni relance de tests.
+Prompt préparé ne signifie pas simulation exécutée ; l'import réel reste
+réservé à l'incrément 3.
+
 ### Règles communes et critères de clôture
 
 - Le JSON source reste en lecture seule. Aucune copie du corpus, des images
