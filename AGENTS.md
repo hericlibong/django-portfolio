@@ -38,6 +38,13 @@ existantes est reportée à une passe documentaire dédiée, sans changement fon
 
 ## Vérifications utiles et proportionnées
 
+Frontière confirmée le 1er novembre 2026 : Django Admin reste réservé à
+l'administration technique, pas à la contribution. La future interface
+éditoriale basique utilisera l'API et ses rôles ; elle n'est pas à développer
+pendant l'import. Les limites et protections admin reportées sont consignées
+dans `docs/notes/admin-et-interface-editoriale.md` ; ne pas les représenter
+comme de nouveaux arbitrages bloquant chaque incrément déjà validé.
+
 - Pendant l'implémentation, exécuter les tests ciblés sur le comportement
   travaillé. Prévoir un seul passage complet final par état fonctionnel,
   sans enchaîner systématiquement toutes les suites ciblées, toutes les

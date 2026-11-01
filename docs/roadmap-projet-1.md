@@ -406,6 +406,10 @@ l'import pilote ; les transitions HTTP arrivent en phase 4.
 
 ## Phase 4 — Authentification, CRUD et modération
 
+**Terminée le 1er novembre 2026**, après revue, tests et exercices des
+incréments 1 à 7, puis consolidation de l'incrément 8. Limites du back-office
+acceptées et reportées ; aucun nouvel exercice requis pour la clôture.
+
 Objectif : réaliser le cœur démonstratif du projet portfolio.
 
 **Estimation : 3 à 5 jours, dont 0,5 à 1 jour de reprise de la phase 3.**
@@ -461,12 +465,12 @@ explicitement dans l'administration, sans ajouter une API d'inscription.
 - [x] Créer par migration les groupes `contributor`, `reviewer` et `administrator`.
 - [x] Attribuer automatiquement `created_by` à la création.
 - [x] Implémenter la création selon la matrice de permissions.
-- [ ] Implémenter la modification selon la matrice de permissions.
-- [ ] Implémenter la suppression selon la matrice de permissions.
-- [ ] Implémenter les actions explicites de soumission, publication, rejet et réouverture.
-- [ ] Interdire la modification directe du statut par un `PATCH` ordinaire.
-- [ ] Ajouter les tests croisés rôle × propriétaire × statut × action.
-- [ ] Vérifier que les réponses refusées utilisent correctement `401`, `403` ou `404`.
+- [x] Implémenter la modification selon la matrice de permissions.
+- [x] Implémenter la suppression selon la matrice de permissions.
+- [x] Implémenter les actions explicites de soumission, publication, rejet et réouverture.
+- [x] Interdire la modification directe du statut par un `PATCH` ordinaire.
+- [x] Ajouter les tests croisés rôle × propriétaire × statut × action.
+- [x] Vérifier que les réponses refusées utilisent correctement `401`, `403` ou `404`.
 
 ### Avancement — incrément 1 validé le 24 octobre 2026
 
@@ -691,12 +695,46 @@ Clôture documentaire et Git sans relance des suites inchangées. Prochaine éta
 **incrément 8 — consolidation et validation finale de la phase 4**. La phase 4
 ne sera clôturée qu'après cette consolidation ciblée sur les écarts restants.
 
+### Incrément 8 — consolidation terminée, phase 4 clôturée le 1er novembre 2026
+
+Le prompt `docs/prompts/phase-4-increment-8-consolidation.md` borne le travail
+aux écarts réels : réutilisation des garanties de matrice/parcours existantes,
+examen ciblé des écritures admin et cohérence README/OpenAPI. Pas de fonctionnalité,
+refactoring général, décision métier implicite ou démarrage de phase 5.
+La consolidation ajoute un seul test d'aller-retour par les routes réelles :
+création/profil → soumission → publication → suppression → restauration →
+réouverture. Aucun code métier modifié ; seul un commentaire admin est corrigé.
+Résultat final confirmé : **1 110 tests réussis en environ 20 min 23 s**, sans
+relance. Rapport et copie scratchpad identiques. Les garanties des suites
+existantes sont réutilisées, sans parcours manuel supplémentaire imposé.
+
+L'auteur confirme la séparation déjà prévue : Django Admin pour le responsable
+technique ; future interface éditoriale simple utilisant l'API selon les rôles.
+Les protections des formulaires type/profil et de suppression physique dans
+l'admin sont reportées à une tâche distincte, sans bloquer la clôture API.
+Décision et solutions minimales conservées dans
+`docs/notes/admin-et-interface-editoriale.md`. Pas d'UI développée maintenant.
+
+Rapport API : `docs/reports/phase-4-increment-8-consolidation.md`.
+Les contrôles de phase 4 sont achevés ; la suite est la phase 5, pas un
+refactoring ou un nouveau cycle de revue sans fait nouveau.
+
 **Livrable attendu :** CRUD authentifié complet avec workflow de modération démontrable et
 matrice de permissions intégralement couverte par les tests.
 
 ---
 
 ## Phase 5 — Import maîtrisé du corpus V2
+
+**Engagée le 1er novembre 2026 : préparation de l'import complet. Aucun import
+réel des 44 fiches n'est encore déclaré exécuté.**
+
+Deux étapes seulement : (1) étendre la commande pilote en conservant son mode
+historique, tests et simulation après revue ; (2) import réel autorisé et
+seconde exécution vérifiant l'idempotence. Le premier prompt est dans
+`docs/prompts/phase-5-increment-1-import-complet.md`. L'import n'écrase pas les
+fiches existantes ni les corrections/données de démonstration. Un blocage
+réel de correspondance ou de données existantes est signalé avant mutation.
 
 Objectif : charger les 44 entités sans faire du fichier JSON la nouvelle base de données.
 
