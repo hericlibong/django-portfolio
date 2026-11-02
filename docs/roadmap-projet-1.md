@@ -937,9 +937,14 @@ Action manuelle initiale : ouvrir Docker Desktop et attendre son démarrage.
 PostgreSQL sera fourni par Compose dans une instance isolée : aucune nouvelle
 installation Windows ni manipulation de la base actuelle requise.
 Les éventuelles autres opérations Windows seront précisées uniquement si un
-message réel les exige. Prompt préparé, aucune configuration Docker encore livrée.
+message réel les exige.
 
-- [ ] Ajouter `Dockerfile` et `docker-compose.yml` pour l'API et PostgreSQL.
+Incrément 1 validé le 3 novembre 2026. L'auteur a confirmé le démarrage dans
+Docker Desktop. Codex a vérifié PostgreSQL sain et les réponses 200 de la
+santé, de Swagger, du schéma et de la collection publique vide sur le port
+8001. Le rapport consigne les migrations et la persistance du volume.
+
+- [x] Ajouter `Dockerfile` et `docker-compose.yml` pour l'API et PostgreSQL.
 - [ ] Ajouter la mesure de couverture à pytest et fixer un seuil réaliste.
 - [ ] Ajuster les configurations Ruff et mypy déjà utilisées depuis la phase 1, sans introduire
   un rattrapage massif en fin de projet.
