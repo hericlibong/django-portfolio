@@ -871,9 +871,64 @@ transformations et omissions, relations conservées et seconde exécution sans d
 
 ## Phase 6 — Qualité et livraison portfolio
 
+**Découpage préparé le 2 novembre 2026. Aucune implémentation de phase 6
+n'est lancée par ce plan.** La phase 5 est terminée ; ses résultats et ceux
+de la phase 4 sont acquis, sans nouvelle validation générale du métier.
+
 Objectif : rendre le projet reproductible, lisible et présentable publiquement.
 
-**Estimation : 2 à 3 jours.**
+**Estimation indicative : 2 à 3 jours**, selon l'environnement Docker et
+les résultats de la première CI. Ce n'est pas un délai garanti.
+
+### Découpage — quatre incréments avec un résultat observable
+
+| Incrément | Travail et livrable | Pourquoi / vérification de fin | Responsable |
+|---|---|---|---|
+| 1 — Démarrage avec Docker | Ajouter Dockerfile, Compose API/PostgreSQL et exclusions de construction ; préciser variables et commandes nécessaires. Ne pas utiliser la base locale des exercices. | Démarrer une installation isolée, appliquer les migrations et obtenir un health check réussi ainsi que Swagger accessible. Objectif : permettre de lancer le projet sans reproduire manuellement tout l'environnement. | Claude : implémentation nécessaire et rapport court. Codex : revue, instructions de lancement et essai avec l'auteur. |
+| 2 — Couverture et CI | Ajouter la mesure de couverture, choisir un seuil à partir du résultat réel et configurer GitHub Actions : Ruff/format, mypy, migrations, schéma OpenAPI et tests avec PostgreSQL de service. Conserver les réglages déjà utiles. | Une exécution complète avec couverture sert de référence, puis une CI verte sur le commit publié. Objectif : détecter les régressions automatiquement, sans batteries locales répétées. | Claude : configuration et seuls tests nécessaires. Codex : revue, publication et lecture du résultat CI. |
+| 3 — Documentation et langue | Mettre à jour le README existant, compléter démarrage Docker et exemples par rôle, traduire les docstrings françaises restantes en anglais et corriger les libellés publics encore contraires à l'ADR 0003. Garder les documents internes français. | Relire le parcours d'installation et de consultation à partir des commandes déjà essayées ; vérifier l'absence de changement fonctionnel pour les docstrings et contrôler seulement les fichiers affectés. Objectif : rendre le dépôt compréhensible par une personne extérieure. | Codex : documentation, traduction sans changement fonctionnel et petites corrections locales. Toute correction importante du contrat public reçoit un prompt distinct pour Claude. |
+| 4 — Revue finale et version 1.0.0 | Examiner uniquement les risques restants : secrets/fichiers suivis et contexte Docker, réglages hors debug, permissions ou requêtes touchées, cohérence des versions et limites documentées. Aligner la version du projet, clôturer le suivi et créer le tag v1.0.0 sur un commit à CI verte. | Réutiliser les garanties déjà acquises ; contrôler les écarts réellement trouvés. Vérifier CI verte et tag distant du bon commit. Objectif : livrer une version identifiable et reproductible du portfolio. | Codex : revue, rapport court et clôture Git autorisée. Claude intervient seulement si une correction fonctionnelle importante est réellement nécessaire. |
+
+### Périmètre et ordre des travaux
+
+- Commencer par l'incrément 1 ; aucun prompt ne lance toute la phase à la fois.
+  La CI vient ensuite sur cet environnement ; la documentation se stabilise
+  avant la version finale. Les comptes, brouillons et données locales existants
+  ne sont pas des prérequis à la construction ou aux tests de l'application.
+- Docker utilise une base et un volume distincts de la base PostgreSQL locale
+  contenant les 44 figures et la démonstration. Ne pas migrer, purger ou écraser
+  cette dernière. Ne pas arrêter les services personnels pour libérer un port
+  sans nécessité expliquée. Pas de suppression de volumes contenant des données.
+- L'image, le dépôt et la CI ne contiennent ni `.env`, sauvegarde, jeton, compte
+  réel ou corpus externe. Le chemin `--input` reste facultatif pour importer
+  des données : le démarrage de l'API ne dépend pas du JSON de `_audit`.
+  Les tests restent autonomes sur leurs données synthétiques.
+- Docker sert ici une installation locale reproductible. Déploiement chez un
+  hébergeur, domaine/TLS, Kubernetes, nouvelle interface et raccordement V2
+  ne font pas partie de cette phase.
+- Ne pas viser arbitrairement 100 % de couverture. Mesurer d'abord, examiner
+  les branches importantes manquantes et fixer un seuil motivé sans fabriquer
+  des tests de détail pour atteindre un chiffre. Conserver les tests métier
+  existants ; ne pas réécrire la matrice de permissions déjà validée.
+- Les 1 126 tests du dernier état sont acquis. Pour ajouter la couverture,
+  préférer un passage complet avec mesure à un passage sans puis un autre
+  avec. Une exécution CI sur le commit final reste nécessaire ; son résultat
+  est réutilisé sans imposer un nouveau passage complet local identique.
+- Traduction de docstrings : pas de nouveau cycle fonctionnel ; comparer le
+  code hors documentation et vérifier format/lint. Une modification d'un
+  message public ou d'un comportement appelle les seuls contrôles affectés.
+- Ne pas ajouter systématiquement un scanner, outil de sécurité, cache de tests,
+  matrice multi-versions ou infrastructure de démonstration. Les contrôles de
+  livraison doivent répondre à un risque concret du projet.
+- La revue finale vérifie notamment que l'accès JWT allongé reste limité au
+  développement et que les réglages hors debug suivent le contrat existant.
+  Elle n'est pas une certification de production ni une nouvelle phase métier.
+- Shango sans profil, anciennes relations d'Oya, ambiguïtés du corpus et
+  protections Django Admin reportées restent documentés. Leur correction ne
+  devient pas implicitement une condition de clôture de la phase 6 ; un fait
+  nouveau réellement bloquant doit être décrit avec son impact précis.
+
+### Suivi — cases cochées après réalisation, pas après préparation du prompt
 
 - [ ] Ajouter `Dockerfile` et `docker-compose.yml` pour l'API et PostgreSQL.
 - [ ] Ajouter la mesure de couverture à pytest et fixer un seuil réaliste.
@@ -889,8 +944,16 @@ Objectif : rendre le projet reproductible, lisible et présentable publiquement.
 - [ ] Exécuter une revue finale ciblée sur sécurité, permissions et requêtes.
 - [ ] Créer la version `v1.0.0` lorsque la CI est verte.
 
-**Livrable attendu :** dépôt public démarrant en une commande, CI verte, documentation complète,
-démonstration reproductible du workflow et version `v1.0.0` publiable dans le portfolio.
+Les deux premières cases techniques relèvent respectivement des incréments
+1 (Docker) et 2 (couverture) ; Ruff/mypy et CI relèvent aussi du 2. README,
+langue et scénarios relèvent du 3. Contrôle des secrets, revue finale et
+version relèvent du 4. Chaque livraison actualise ces cases et son état,
+sans présenter une préparation comme une réalisation.
+
+**Livrable attendu :** dépôt public avec démarrage documenté par Compose,
+CI verte, documentation et scénarios reproductibles, version `v1.0.0`
+identifiable dans le portfolio. La mise en ligne sur un hébergeur n'est
+pas requise pour atteindre ce livrable.
 
 ---
 
@@ -950,9 +1013,9 @@ styles et références d'images, sans dépendance directe à Vertex AI.
 Le projet 1 est terminé lorsque :
 
 - [x] les 44 entités sont importables sans doublon ;
-- [ ] les lectures publiques et le CRUD authentifié sont documentés ;
-- [ ] la matrice de permissions est entièrement testée ;
-- [ ] le workflow de contribution fonctionne de bout en bout ;
+- [x] les lectures publiques et le CRUD authentifié sont documentés — phases 3 et 4 ; installation et présentation finale à compléter en phase 6 ;
+- [x] la matrice de permissions est entièrement testée — phase 4 et consolidation validées ;
+- [x] le workflow de contribution fonctionne de bout en bout — phase 4 validée par tests et exercices ;
 - [ ] PostgreSQL, Docker et la CI sont opérationnels ;
 - [ ] aucune dépendance à l'application V2 ou à Vertex AI n'est nécessaire pour lancer l'API ;
 - [ ] une personne externe peut installer, tester et comprendre le projet à partir du README.
