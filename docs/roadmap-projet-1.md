@@ -930,6 +930,15 @@ les résultats de la première CI. Ce n'est pas un délai garanti.
 
 ### Suivi — cases cochées après réalisation, pas après préparation du prompt
 
+Incrément 1 préparé : `docs/prompts/phase-6-increment-1-docker.md`.
+Prérequis constatés le 2 novembre 2026 : Docker Desktop/Compose installés,
+WSL 2 présent ; moteur Docker non disponible avant ouverture de Desktop.
+Action manuelle initiale : ouvrir Docker Desktop et attendre son démarrage.
+PostgreSQL sera fourni par Compose dans une instance isolée : aucune nouvelle
+installation Windows ni manipulation de la base actuelle requise.
+Les éventuelles autres opérations Windows seront précisées uniquement si un
+message réel les exige. Prompt préparé, aucune configuration Docker encore livrée.
+
 - [ ] Ajouter `Dockerfile` et `docker-compose.yml` pour l'API et PostgreSQL.
 - [ ] Ajouter la mesure de couverture à pytest et fixer un seuil réaliste.
 - [ ] Ajuster les configurations Ruff et mypy déjà utilisées depuis la phase 1, sans introduire
