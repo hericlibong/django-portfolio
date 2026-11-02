@@ -726,10 +726,10 @@ matrice de permissions intégralement couverte par les tests.
 
 ## Phase 5 — Import maîtrisé du corpus V2
 
-**État au 1er novembre 2026 : import réel terminé, 44 figures du corpus
-présentes en base, plus une démonstration. Les huit tâches ci-dessous sont
-réalisées. La simulation séparée a été annulée ; les lectures Postman et
-la clôture technique/Git restent à finaliser, sans nouvel import requis.**
+**Phase terminée le 2 novembre 2026.** Les 44 figures du corpus sont présentes
+en base, plus une démonstration. Les huit tâches sont réalisées ; les lectures
+Swagger ont été validées par l'auteur et remplacent les essais Postman.
+La simulation séparée a été annulée ; aucun nouvel import n'est requis.
 
 Objectif : charger les 44 entités sans faire du fichier JSON la nouvelle base de données.
 
@@ -754,9 +754,9 @@ globale reste indicative, sans promesse de durée par incrément.
 
 | Incrément | État réel | Résultat visible pour l'auteur |
 |---|---|---|
-| 1 — Étendre la commande | Code et tests livrés par Claude ; rapport et changements examinés par Codex pour actualiser ce suivi. Clôture technique/Git à finaliser avant exécution. | La commande sait désormais sélectionner toutes les figures du JSON avec `--all`, au lieu des trois seules du pilote. Les données ne sont pas encore chargées dans l'API locale. |
+| 1 — Étendre la commande | Terminé, livré et revu. Corrections documentaires locales sans changement fonctionnel ; résultats des tests réutilisés. | La commande importe toutes les figures du JSON avec `--all` et conserve le mode pilote. |
 | 2 — Simulation séparée | Annulée par décision de l'auteur, sans exécution sur la base locale. | Aucun nouveau livrable attendu. |
-| 3 — Importer et valider | Import et seconde exécution terminés ; rapport vérifié par Codex et état final corroboré en lecture seule. | 40 nouvelles fiches, 4 figures du corpus préservées et une démonstration conservée : 45 au total. Les nouvelles données sont désormais consultables sur les routes privées autorisées. Restent les quelques lectures Postman prévues. |
+| 3 — Importer et valider | Terminé : sauvegarde, import et relance vérifiés ; consultation validée dans l'admin et Swagger. | 40 nouvelles fiches, 4 figures du corpus préservées et une démonstration conservée : 45 au total. Liste privée et détail d'Oshun avec relation résolue vers Shango confirmés par l'auteur. |
 
 La simulation de Claude a lu les 44 figures dans une base temporaire vide :
 44 créations tentées, puis annulées. Cette base a ensuite été détruite ;
@@ -794,8 +794,24 @@ ni test relancé pendant cette vérification.
 Les trois relations anciennes d'Oya restent par nom et Shango conserve son
 absence préexistante de profil : ces limites sont enregistrées sans réparation
 implicite. Rapport API : `docs/reports/phase-5-increment-3-import-reel.md`.
-Cette livraison est terminée ; la phase n'est pas déclarée close avant son
-suivi final. Aucune nouvelle tâche confiée à Claude pour refaire cet import.
+Cette livraison et la phase sont terminées. Aucune nouvelle tâche confiée
+à Claude pour refaire cet import.
+
+### Clôture — 2 novembre 2026
+
+L'auteur a constaté les 45 fiches dans l'administration, puis s'est connecté
+dans Swagger avec le relecteur. Liste privée en 200 avec `count: 45`, pagination
+expliquée ; détail d'Oshun en 200 et lien `consort` vers la fiche Shango
+confirmé. Ces lectures remplacent Postman, sans répétition ni publication.
+Les données restent en brouillon et les limites connues sont conservées.
+
+Revue de l'extension et des tests effectuée : pas de moteur d'import générique,
+pas de migration ni changement des droits API. Les tests couvrent des risques
+distincts (sélection, intégrité, rollback et préservation). Codex a raccourci
+les docstrings modifiées et supprimé les docstrings redondantes des nouveaux
+tests ; contrôles limités à l'équivalence AST hors docstrings et à Ruff/format.
+Les 1 126 tests déjà acquis sont réutilisés, sans nouveau passage complet.
+Prochaine phase : qualité et livraison portfolio, à découper avant exécution.
 
 ### Règles communes et critères de clôture
 
@@ -832,8 +848,8 @@ n'est lancé par la seule mise à jour de ce découpage.
 ### Suivi de réalisation
 
 - [x] Compléter la commande amorcée et validée sur trois entités en phase 2 — option `--all` livrée.
-- [x] Rendre la commande d'import idempotente — vérifié automatiquement ; seconde exécution sur la base locale encore à faire ci-dessous.
-- [x] Créer les référentiels nécessaires pendant l'import de façon déterministe — logique livrée et testée, pas encore exécutée réellement en base locale.
+- [x] Rendre la commande d'import idempotente — tests et seconde exécution sur la base locale réussis.
+- [x] Créer les référentiels nécessaires pendant l'import de façon déterministe — implémenté, testé et exécuté lors de l'import réel.
 - [x] Résoudre les relations en deux passes et conserver les cibles absentes sous forme de nom — implémenté et vérifié sur le corpus en base de tests.
 - [x] Appliquer les décisions prises sur les ethnies, les pays et les domaines — correspondances explicites, valeurs ambiguës conservées sans fusion inventée.
 - [x] Signaler explicitement dans le rapport d'import les champs non importés, dont
@@ -933,7 +949,7 @@ styles et références d'images, sans dépendance directe à Vertex AI.
 
 Le projet 1 est terminé lorsque :
 
-- [ ] les 44 entités sont importables sans doublon ;
+- [x] les 44 entités sont importables sans doublon ;
 - [ ] les lectures publiques et le CRUD authentifié sont documentés ;
 - [ ] la matrice de permissions est entièrement testée ;
 - [ ] le workflow de contribution fonctionne de bout en bout ;
