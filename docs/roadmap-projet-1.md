@@ -871,9 +871,11 @@ transformations et omissions, relations conservées et seconde exécution sans d
 
 ## Phase 6 — Qualité et livraison portfolio
 
-**Découpage préparé le 2 novembre 2026. Aucune implémentation de phase 6
-n'est lancée par ce plan.** La phase 5 est terminée ; ses résultats et ceux
-de la phase 4 sont acquis, sans nouvelle validation générale du métier.
+**Phase terminée le 3 novembre 2026.** Les incréments 3 et 4 ont été publiés
+ensemble sur `cddd8b8`. Les sept contrôles CI passent, dont 1 126 tests avec
+98,20 % de couverture pour un seuil de 95 %. Le tag `v1.0.0` pointe vers ce
+commit sur GitHub.
+[CI de livraison](https://github.com/hericlibong/afrimyth-api/actions/runs/41726385027).
 
 Objectif : rendre le projet reproductible, lisible et présentable publiquement.
 
@@ -955,14 +957,14 @@ couverture, pour un seuil de 95 %. Le job a duré 5 min 58 s.
 - [x] Vérifier les configurations Ruff et mypy existantes sur la CI. Les deux
   passent avec les réglages actuels.
 - [x] Ajouter une CI GitHub Actions : lint, typage, tests et contrôle des migrations.
-- [ ] Vérifier qu'aucun secret ni fichier de développement ne se trouve dans le dépôt.
-- [ ] Rédiger le README : objectif, architecture, installation, commandes, API et décisions.
-- [ ] Traduire en anglais les docstrings françaises existantes dans tous les fichiers
+- [x] Vérifier qu'aucun secret ni fichier de développement ne se trouve dans le dépôt.
+- [x] Rédiger le README : objectif culturel, architecture, installation, commandes, API et décisions.
+- [x] Traduire en anglais les docstrings françaises existantes dans tous les fichiers
   de code, tests compris, sans changement fonctionnel ; aligner les consignes du
   dépôt API sur l'ADR 0003. Les nouvelles docstrings sont en anglais dès maintenant.
-- [ ] Documenter quelques scénarios reproductibles pour chaque rôle.
-- [ ] Exécuter une revue finale ciblée sur sécurité, permissions et requêtes.
-- [ ] Créer la version `v1.0.0` lorsque la CI est verte.
+- [x] Documenter quelques scénarios reproductibles pour chaque rôle.
+- [x] Exécuter une revue finale ciblée selon les changements et les risques restants.
+- [x] Créer la version `v1.0.0` lorsque la CI est verte.
 
 Les deux premières cases techniques relèvent respectivement des incréments
 1 (Docker) et 2 (couverture) ; Ruff/mypy et CI relèvent aussi du 2. README,
@@ -1037,5 +1039,5 @@ Le projet 1 est terminé lorsque :
 - [x] la matrice de permissions est entièrement testée — phase 4 et consolidation validées ;
 - [x] le workflow de contribution fonctionne de bout en bout — phase 4 validée par tests et exercices ;
 - [x] PostgreSQL, Docker et la CI sont opérationnels ;
-- [ ] aucune dépendance à l'application V2 ou à Vertex AI n'est nécessaire pour lancer l'API ;
-- [ ] une personne externe peut installer, tester et comprendre le projet à partir du README.
+- [x] aucune dépendance à l'application V2 ou à Vertex AI n'est nécessaire pour lancer l'API ;
+- [x] une personne externe peut installer, tester et comprendre le projet à partir du README.
