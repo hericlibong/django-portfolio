@@ -944,11 +944,17 @@ Docker Desktop. Codex a vérifié PostgreSQL sain et les réponses 200 de la
 santé, de Swagger, du schéma et de la collection publique vide sur le port
 8001. Le rapport consigne les migrations et la persistance du volume.
 
+Incrément 2 préparé dans `docs/prompts/phase-6-increment-2-ci-couverture.md`.
+Incrément 2 validé le 3 novembre 2026. Le commit API `dbb44f3` a passé les
+sept contrôles sur GitHub Actions. Les 1 126 tests passent avec 98,20 % de
+couverture, pour un seuil de 95 %. Le job a duré 5 min 58 s.
+[Exécution CI](https://github.com/hericlibong/afrimyth-api/actions/runs/41678507068).
+
 - [x] Ajouter `Dockerfile` et `docker-compose.yml` pour l'API et PostgreSQL.
-- [ ] Ajouter la mesure de couverture à pytest et fixer un seuil réaliste.
-- [ ] Ajuster les configurations Ruff et mypy déjà utilisées depuis la phase 1, sans introduire
-  un rattrapage massif en fin de projet.
-- [ ] Ajouter une CI GitHub Actions : lint, typage, tests et contrôle des migrations.
+- [x] Ajouter la mesure de couverture à pytest et fixer un seuil réaliste.
+- [x] Vérifier les configurations Ruff et mypy existantes sur la CI. Les deux
+  passent avec les réglages actuels.
+- [x] Ajouter une CI GitHub Actions : lint, typage, tests et contrôle des migrations.
 - [ ] Vérifier qu'aucun secret ni fichier de développement ne se trouve dans le dépôt.
 - [ ] Rédiger le README : objectif, architecture, installation, commandes, API et décisions.
 - [ ] Traduire en anglais les docstrings françaises existantes dans tous les fichiers
@@ -1030,6 +1036,6 @@ Le projet 1 est terminé lorsque :
 - [x] les lectures publiques et le CRUD authentifié sont documentés — phases 3 et 4 ; installation et présentation finale à compléter en phase 6 ;
 - [x] la matrice de permissions est entièrement testée — phase 4 et consolidation validées ;
 - [x] le workflow de contribution fonctionne de bout en bout — phase 4 validée par tests et exercices ;
-- [ ] PostgreSQL, Docker et la CI sont opérationnels ;
+- [x] PostgreSQL, Docker et la CI sont opérationnels ;
 - [ ] aucune dépendance à l'application V2 ou à Vertex AI n'est nécessaire pour lancer l'API ;
 - [ ] une personne externe peut installer, tester et comprendre le projet à partir du README.
