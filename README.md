@@ -15,11 +15,11 @@ Ce dépôt ne contient aucun code applicatif. Il sert d'index à un parcours d'a
 
 ### Projets
 
-★ = projet destiné au portfolio public. Les autres dépôts restent publics mais ne sont pas mis en avant.
+★ = projet destiné au portfolio public. Le tableau distingue les projets livrés de ceux qui sont encore prévus.
 
 | #  | Projet                                    | Ce qu'il démontre                                                                     | Stack                                                  | Statut       | Lien    |
 |----|-------------------------------------------|---------------------------------------------------------------------------------------|--------------------------------------------------------|--------------|---------|
-| 1  | ★ API REST CRUD authentifiée              | Modélisation, authentification par jeton, permissions au niveau objet, schéma OpenAPI   | Django, DRF, SimpleJWT, drf-spectacular, PostgreSQL     | ⬜ Planifié  | à venir |
+| 1 | ★ Afrimyth API | API culturelle et encyclopédique sur les mythologies africaines et diasporiques. JWT, permissions et OpenAPI. | Django, DRF, PostgreSQL | ✅ v1.0.0 | [Dépôt](https://github.com/hericlibong/afrimyth-api) |
 | 2  | Application multi-utilisateurs avec rôles | Groupes et permissions natives, cloisonnement des vues par rôle, admin personnalisée    | Django, `django.contrib.auth`, PostgreSQL              | ⬜ Planifié  | à venir |
 | 3  | Import/export de données métier           | Lecture CSV/Excel, validation ligne à ligne, rapport d'erreurs exploitable par l'usager | Django, pandas, openpyxl, PostgreSQL                   | ⬜ Planifié  | à venir |
 | 4  | ★ Backend avec tâches asynchrones         | Découplage des traitements longs, files d'attente, tâches planifiées, reprise sur échec | Django, Celery, Redis, celery beat                     | ⬜ Planifié  | à venir |
@@ -68,11 +68,11 @@ This repository holds no application code. It indexes a Django learning path bui
 
 ### Projects
 
-★ marks the projects intended for the public portfolio. The remaining repositories are public but not featured.
+★ marks the projects intended for the public portfolio. The table distinguishes delivered projects from planned ones.
 
 | #  | Project                            | What it demonstrates                                                                   | Stack                                            | Status      | Link |
 |----|------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------|-------------|------|
-| 1  | ★ Authenticated CRUD REST API      | Data modelling, token authentication, object-level permissions, generated OpenAPI schema | Django, DRF, SimpleJWT, drf-spectacular, PostgreSQL | ⬜ Planned  | TBA  |
+| 1 | ★ Afrimyth API | Cultural and encyclopedic API for African and diasporic mythologies. JWT, permissions and OpenAPI. | Django, DRF, PostgreSQL | ✅ v1.0.0 | [Repository](https://github.com/hericlibong/afrimyth-api) |
 | 2  | Multi-user application with roles  | Native groups and permissions, role-scoped views, customised admin site                  | Django, `django.contrib.auth`, PostgreSQL        | ⬜ Planned  | TBA  |
 | 3  | Business data import/export        | CSV and Excel parsing, row-level validation, error report an end user can act on         | Django, pandas, openpyxl, PostgreSQL             | ⬜ Planned  | TBA  |
 | 4  | ★ Backend with asynchronous tasks  | Long jobs moved off the request cycle, queues, scheduled work, retry on failure           | Django, Celery, Redis, celery beat               | ⬜ Planned  | TBA  |
